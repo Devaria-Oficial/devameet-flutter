@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Devameet',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: "Biennale"
       ),
       home: LoginPage()
     );

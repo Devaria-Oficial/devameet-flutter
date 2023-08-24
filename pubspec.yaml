@@ -68,6 +68,20 @@ flutter:
     - assets/images/
     - assets/icons/
 
+  fonts:
+    - family: Biennale
+      fonts:
+        - asset: assets/fonts/Biennale-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Biennale-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Biennale-Black.otf
+          weight: 800
+        - asset: assets/fonts/Biennale-Light.otf
+          weight: 300
+        - asset: assets/fonts/Biennale-Regular.otf
+          weight: 400
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
