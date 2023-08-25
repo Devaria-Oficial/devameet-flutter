@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/errors/failures.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,13 +22,20 @@ class LoginCubit extends Cubit<LoginState> {
   void performLogin() async {
 
     bool isValid = state.form.validate();
+    emit(state.copyWith(status: LoginStatus.submitting));
+
 
     print(isValid);
 
     final email = state.form.getValue("email");
     final password = state.form.getValue("password");
 
-    authApiService.login(email, password);
+    final failureOrAuth = await authApiService.login(email, password);
+
+    failureOrAuth.fold((failure) {
+      failure as AppFailure;
+      emit(state.copyWith(errorMessage: failure.error, status: LoginStatus.error));
+    }, (r) => null);
 
 
   }

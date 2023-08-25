@@ -1,5 +1,6 @@
 import 'package:devameet_flutter/components/shared/button.dart';
 import 'package:devameet_flutter/components/shared/input_field.dart';
+import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/login/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +32,8 @@ class LoginForm extends StatelessWidget {
                 onChanged: (password) => context.read<LoginCubit>().changePassword(password),
                 stream: state.form.getStream("password"),
                 initialValue: state.form.getValue("password")),
+            SizedBox(height: height * 0.03 ),
+            Visibility(visible: state.status == LoginStatus.error, child: Text(state!.errorMessage!, style: TextStyle(color: DColors.redError),)),
             Container(
               margin: EdgeInsets.only(top: height * 0.0625),
               child: Button(

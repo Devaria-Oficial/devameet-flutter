@@ -14,3 +14,14 @@ class ApiFailure extends Failure {
   List<Object?> get props => [statusCode, message];
 
 }
+
+class AppFailure extends Failure {
+  final String error;
+
+  AppFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+
+
+}
