@@ -16,10 +16,10 @@ abstract class HttpMessages {
   static final CONNECTION_ERROR = "Não foi possivel estabelecer uma conexão com o servidor. Tente novamente mais tarde!";
 }
 
-class HttpClientImpl implements HttpService {
+class HttpServiceImpl implements HttpService {
   late Dio client;
 
-  HttpClientImpl(String baseUrl) {
+  HttpServiceImpl(String baseUrl) {
     final options = BaseOptions(baseUrl: baseUrl);
     client = Dio(options);
   }
