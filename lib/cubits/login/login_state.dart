@@ -1,12 +1,8 @@
-
-
-import 'package:equatable/equatable.dart';
-import 'package:form_stream_handler/form_stream_handler.dart';
+part of 'login_cubit.dart';
 
 class LoginState extends Equatable {
 
   final FormHandler form;
-
   const LoginState({
     required this.form
   });
