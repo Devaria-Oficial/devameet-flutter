@@ -9,11 +9,20 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginState.initial());
 
   void changeEmail(String email) {
-    print(email);
+    state.form.setValue("email", email);
   }
 
   void changePassword(String password) {
-    print(password);
+    state.form.setValue("password", password);
+  }
+
+  void performLogin() {
+
+    bool isValid = state.form.validate();
+
+    print(isValid);
+
+
   }
 
 }

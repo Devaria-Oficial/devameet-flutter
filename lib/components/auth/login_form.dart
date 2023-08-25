@@ -35,6 +35,7 @@ class LoginForm extends StatelessWidget {
               margin: EdgeInsets.only(top: height * 0.0625),
               child: Button(
                 text: "Login",
+                onPressed: context.read<LoginCubit>().performLogin,
               ),
             )
           ],

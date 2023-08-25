@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final String text;
+  final dynamic onPressed;
 
-  const Button({super.key, required this.text});
+  const Button({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
     return ElevatedButton(
-        onPressed: () => {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
