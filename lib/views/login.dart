@@ -1,5 +1,6 @@
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/login/login_cubit.dart';
+import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +13,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocProvider(create: (_) => LoginCubit(), child: LoginView()));
+        body: BlocProvider(create: (_) => sl<LoginCubit>() , child: LoginView()));
   }
 }
 

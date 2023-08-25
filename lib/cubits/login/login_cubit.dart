@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_stream_handler/form_stream_handler.dart';
@@ -5,8 +6,9 @@ import 'package:form_stream_handler/form_stream_handler.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
+  final AuthApiService authApiService;
 
-  LoginCubit() : super(LoginState.initial());
+  LoginCubit({required this.authApiService}) : super(LoginState.initial());
 
   void changeEmail(String email) {
     state.form.setValue("email", email);
@@ -16,11 +18,16 @@ class LoginCubit extends Cubit<LoginState> {
     state.form.setValue("password", password);
   }
 
-  void performLogin() {
+  void performLogin() async {
 
     bool isValid = state.form.validate();
 
     print(isValid);
+
+    final email = state.form.getValue("email");
+    final password = state.form.getValue("password");
+
+    authApiService.login(email, password);
 
 
   }

@@ -1,5 +1,4 @@
-
-
+import 'package:devameet_flutter/errors/failures.dart';
 import 'package:devameet_flutter/services/http_service.dart';
 
 abstract class AuthApiService {
@@ -13,11 +12,16 @@ class AuthApiServiceImpl implements AuthApiService {
 
   @override
   void login(String email, String password) async {
-    print(email);
-    print(password);
+    final result = await httpService.request(
+        path: "/auth/login",
+        method: "POST",
+        data: {"login": email, "password": password});
+
+    result.fold((failure) {
+        failure as ApiFailure;
+        final msg = failure.message ?? (failure.response.data["message"]);
+        print(msg);
+        }
+        , (r) => print(r));
   }
-
 }
-
-
-
