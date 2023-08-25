@@ -1,4 +1,5 @@
 import 'package:devameet_flutter/views/login.dart';
+import 'package:devameet_flutter/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'injection_container.dart' as di;
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Biennale"
       ),
-      home: LoginPage()
+      home: RegisterPage()
     );
   }
 }

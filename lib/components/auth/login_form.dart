@@ -33,7 +33,7 @@ class LoginForm extends StatelessWidget {
                 stream: state.form.getStream("password"),
                 initialValue: state.form.getValue("password")),
             SizedBox(height: height * 0.03 ),
-            Visibility(visible: state.status == LoginStatus.error, child: Text(state!.errorMessage!, style: TextStyle(color: DColors.redError),)),
+            Visibility(visible: state.status == LoginStatus.error, child: Text(state!.errorMessage ?? "", style: TextStyle(color: DColors.redError),)),
             Container(
               margin: EdgeInsets.only(top: height * 0.0625),
               child: Button(
