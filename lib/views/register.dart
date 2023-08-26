@@ -3,6 +3,7 @@
 import 'package:devameet_flutter/components/auth/register_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -29,7 +30,17 @@ class RegisterView extends StatelessWidget {
         Container(
           child: RegisterForm()
         ),
-        Container()
+        Container(
+          child: Column(
+            children: [
+              Text("Já possui uma conta?"),
+              GestureDetector(
+                onTap: () => context.go("/sign_in"),
+                child: Text("Faça seu login agora!"),
+              )
+            ],
+          ),
+        )
       ],
     );
   }

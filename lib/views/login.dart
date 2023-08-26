@@ -4,6 +4,7 @@ import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/auth/login_form.dart';
 
@@ -47,6 +48,7 @@ class LoginView extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                         GestureDetector(
+                            onTap: () => context.go("/sign_up"),
                             child: Text("Faça seu cadastro agora!",
                                 style: TextStyle(
                                     color: DColors.primary3,

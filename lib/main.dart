@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/router/app_router.dart';
 import 'package:devameet_flutter/views/login.dart';
 import 'package:devameet_flutter/views/register.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Devameet',
       theme: ThemeData(
         fontFamily: "Biennale"
       ),
-      home: RegisterPage()
+      routerConfig: AppRouter().router,
     );
   }
 }

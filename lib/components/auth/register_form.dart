@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/shared/button.dart';
 import 'package:devameet_flutter/components/shared/input_field.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,12 @@ class RegisterForm extends StatelessWidget {
             iconPath: "assets/icons/key.svg",
             onChanged: (name) {},
           ),
+          Container(
+            child: Button(
+              text: "Cadastrar",
+              onPressed: () => {},
+            )
+          )
         ],
       ),
     );
