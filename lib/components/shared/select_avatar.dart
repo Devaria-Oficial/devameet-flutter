@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/shared/button.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,15 +27,15 @@ class SelectAvatar extends StatelessWidget {
                   color: DColors.primary3,
                   fontSize: 16,
                   fontWeight: FontWeight.w700)),
-          SizedBox(height: height * 0.0025),
-          Divider()
+          SizedBox(height: height * 0.025),
+          const Divider()
         ],
       ),
       content: Container(
         width: width,
         child: GridView.count(
-            crossAxisSpacing: 7.79,
-            mainAxisSpacing: 7.79,
+            crossAxisSpacing: width * 0.021944444444444,
+            mainAxisSpacing: height * 0.01234375,
             crossAxisCount: 3,
             children: List.generate(
                 9,
@@ -51,7 +52,22 @@ class SelectAvatar extends StatelessWidget {
                   ),
                 ))),
       ),
-      actions: [],
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+                width: width * 0.22,
+                child: Button(text: "Voltar", onPressed: () {}, isInverted: true,)),
+            SizedBox(
+              width: width * 0.01,
+            ),
+            SizedBox(
+                width: width * 0.41666666666667,
+                child: Button(text: "Salvar", onPressed: () {},)),
+          ],
+        )
+      ],
     );
   }
 }
