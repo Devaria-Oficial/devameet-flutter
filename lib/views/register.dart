@@ -28,13 +28,12 @@ class RegisterView extends StatelessWidget {
 
     return Column(
       children: [
-        // TODO: Choice Avatar
         Container(
+          margin: EdgeInsets.only(top: height * 0.0921875),
           child: const ChoiceAvatar(),
         ),
-
         Container(
-          //margin: EdgeInsets.only(top: height * 0.32),
+          margin: EdgeInsets.only(top: height * 0.075),
           child: RegisterForm()
         ),
         Container(
