@@ -1,5 +1,6 @@
 
 
+import 'package:devameet_flutter/components/auth/choice_avatar.dart';
 import 'package:devameet_flutter/components/auth/register_form.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,10 +29,12 @@ class RegisterView extends StatelessWidget {
     return Column(
       children: [
         // TODO: Choice Avatar
-        Container(),
+        Container(
+          child: const ChoiceAvatar(),
+        ),
 
         Container(
-          margin: EdgeInsets.only(top: height * 0.32),
+          //margin: EdgeInsets.only(top: height * 0.32),
           child: RegisterForm()
         ),
         Container(
