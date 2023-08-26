@@ -7,37 +7,47 @@ class RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.width;
+
     // TODO: implement build
     return Form(
-      child: Column(
-        children: [
-          InputField(
-            hint: "Nome Completo",
-            iconPath: "assets/icons/user.svg",
-            onChanged: (name) {},
-          ),
-          InputField(
-            hint: "E-mail",
-            iconPath: "assets/icons/envelope.svg",
-            onChanged: (name) {},
-          ),
-          InputField(
-            hint: "Senha",
-            iconPath: "assets/icons/key.svg",
-            onChanged: (name) {},
-          ),
-          InputField(
-            hint: "Confirmar Senha",
-            iconPath: "assets/icons/key.svg",
-            onChanged: (name) {},
-          ),
-          Container(
-            child: Button(
-              text: "Cadastrar",
-              onPressed: () => {},
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.088),
+        child: Column(
+          children: [
+            InputField(
+              hint: "Nome Completo",
+              iconPath: "assets/icons/user.svg",
+              onChanged: (name) {},
+            ),
+            SizedBox(height: height * 0.0375),
+            InputField(
+              hint: "E-mail",
+              iconPath: "assets/icons/envelope.svg",
+              onChanged: (name) {},
+            ),
+            SizedBox(height: height * 0.0375),
+            InputField(
+              hint: "Senha",
+              iconPath: "assets/icons/key.svg",
+              onChanged: (name) {},
+            ),
+            SizedBox(height: height * 0.0375),
+            InputField(
+              hint: "Confirmar Senha",
+              iconPath: "assets/icons/key.svg",
+              onChanged: (name) {},
+            ),
+            SizedBox(height: height * 0.0625),
+            Container(
+              child: Button(
+                text: "Cadastrar",
+                onPressed: () => {},
+              )
             )
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
