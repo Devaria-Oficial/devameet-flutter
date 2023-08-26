@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/shared/select_avatar.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +35,9 @@ class ChoiceAvatar extends StatelessWidget {
                     color: DColors.primary3,
                     child: InkWell(
                       splashColor: Colors.white,
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(context: context, builder: (context) => SelectAvatar());
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
