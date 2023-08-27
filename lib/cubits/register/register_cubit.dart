@@ -17,6 +17,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   void changeConfirmPassword(String confirmPassword) => state.form.setValue("confirmPassword", confirmPassword);
 
   void performRegister() {
+    print(state.form.getValue("avatar"));
     print(state.form.getValue("name"));
     print(state.form.getValue("email"));
     print(state.form.getValue("password"));

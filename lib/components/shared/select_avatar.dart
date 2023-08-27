@@ -6,15 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectAvatar extends StatelessWidget {
-  const SelectAvatar({super.key});
+  final String? initialAvatar;
+  final dynamic onSave;
+  const SelectAvatar({super.key, required this.onSave, this.initialAvatar});
 
   @override
   Widget build(BuildContext context) {
+    print(initialAvatar);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return BlocProvider(
-      create: (_) => SelectAvatarCubit(),
+      create: (_) => SelectAvatarCubit()..changeAvatar(initialAvatar ?? ""),
       child: BlocBuilder<SelectAvatarCubit, SelectAvatarState>(
         builder: (context, state) {
           return AlertDialog(
@@ -59,13 +62,13 @@ class SelectAvatar extends StatelessWidget {
                       9,
                       (index) => InkWell(
                         onTap: () {
-                          context.read<SelectAvatarCubit>().changeAvatar("avatar_0${index}");
+                          context.read<SelectAvatarCubit>().changeAvatar("avatar_0${index+1}");
                         },
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all((Radius.circular(4))),
                                 color: DColors.white2,
-                                border: state.avatar == "avatar_0${index}" ? Border.all(color: DColors.primary3, width: 2) : null
+                                border: state.avatar == "avatar_0${index+1}" ? Border.all(color: DColors.primary3, width: 2) : null
                             ),
                             child: Image.asset("assets/devameet/Avatar/avatar_0${index+1}_front.png", fit: BoxFit.contain,),
 
@@ -78,13 +81,16 @@ class SelectAvatar extends StatelessWidget {
                 children: [
                   SizedBox(
                       width: width * 0.22,
-                      child: Button(text: "Voltar", onPressed: () {}, isInverted: true,)),
+                      child: Button(text: "Voltar", onPressed: () => Navigator.pop(context, false), isInverted: true,)),
                   SizedBox(
                     width: width * 0.01,
                   ),
                   SizedBox(
                       width: width * 0.41666666666667,
-                      child: Button(text: "Salvar", onPressed: () {},)),
+                      child: Button(text: "Salvar", onPressed: () {
+                        onSave(state.avatar);
+                        Navigator.pop(context, state.avatar);
+                      },)),
                 ],
               )
             ],
