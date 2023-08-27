@@ -22,10 +22,9 @@ class LoginCubit extends Cubit<LoginState> {
   void performLogin() async {
 
     bool isValid = state.form.validate();
+    if(!isValid) return;
+
     emit(state.copyWith(status: LoginStatus.submitting));
-
-
-    print(isValid);
 
     final email = state.form.getValue("email");
     final password = state.form.getValue("password");

@@ -1,5 +1,6 @@
 
 
+import 'package:devameet_flutter/cubits/register/register_cubit.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:devameet_flutter/services/http_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,6 +16,7 @@ void init() {
 
   // CUBITS
   sl.registerFactory(() => LoginCubit(authApiService: sl()));
+  sl.registerFactory(() => RegisterCubit(authApiService: sl()));
 
   // CORE
   sl.registerLazySingleton<HttpService>(() => HttpServiceImpl(dotenv.get("API_URL")));

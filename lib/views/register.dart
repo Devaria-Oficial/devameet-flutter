@@ -4,6 +4,7 @@ import 'package:devameet_flutter/components/auth/choice_avatar.dart';
 import 'package:devameet_flutter/components/auth/register_form.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/register/register_cubit.dart';
+import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-          create: (_) => RegisterCubit(),
+          create: (_) => sl<RegisterCubit>(),
           child: const RegisterView())
     );
   }
