@@ -5,8 +5,10 @@ enum RegisterStatus { initial, submitting, success, error }
 class RegisterState extends Equatable {
   final FormHandler form;
   final RegisterStatus status;
+  final String? errorMessage;
 
-  const RegisterState({required this.form, required this.status});
+  const RegisterState(
+      {required this.form, required this.status, this.errorMessage});
 
   factory RegisterState.initial() {
     return RegisterState(
@@ -25,14 +27,18 @@ class RegisterState extends Equatable {
               validator: Validator()
                   .required("A confirmação da senha deve ser informada")),
         }),
-        status: RegisterStatus.initial);
+        status: RegisterStatus.initial,
+        errorMessage: null);
   }
 
   @override
-  List<Object?> get props => [status, form];
+  List<Object?> get props => [status];
 
-  RegisterState copyWith({FormHandler? form, RegisterStatus? status}) {
+  RegisterState copyWith(
+      {FormHandler? form, RegisterStatus? status, String? errorMessage}) {
     return RegisterState(
-        form: form ?? this.form, status: status ?? this.status);
+        form: form ?? this.form,
+        status: status ?? this.status,
+        errorMessage: errorMessage ?? this.errorMessage);
   }
 }

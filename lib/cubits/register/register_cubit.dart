@@ -1,5 +1,6 @@
 
 
+import 'package:devameet_flutter/errors/failures.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -17,12 +18,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   void changePassword(String password) => state.form.setValue("password", password);
   void changeConfirmPassword(String confirmPassword) => state.form.setValue("confirmPassword", confirmPassword);
 
-  void performRegister() {
+  void performRegister() async {
     bool isValid = state.form.validate();
 
-    // if(!isValid) {
-    //   return;
-    // }
+    if(!isValid) return;
 
     final password = state.form.getValue("password");
     final confirmPassword = state.form.getValue("confirmPassword");
@@ -36,7 +35,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       return;
     }
 
-    authApiService.register(email: email, password: password, name: name, avatar: avatar);
+    final failureOrSuccess = await authApiService.register(email: email, password: password, name: name, avatar: avatar);
+
+    failureOrSuccess.fold((failure) {
+      failure as AppFailure;
+      emit(state.copyWith(status: RegisterStatus.error, errorMessage: failure.error));
+    }
+    , (r) => emit(state.copyWith(status: RegisterStatus.success)));
 
   }
 }

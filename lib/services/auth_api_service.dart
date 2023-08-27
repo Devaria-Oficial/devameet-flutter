@@ -5,7 +5,7 @@ import 'package:devameet_flutter/services/http_service.dart';
 
 abstract class AuthApiService {
   Future<Either<Failure, AuthModel>> login(String email, String password);
-  void register(
+  Future<Either<Failure, void>> register(
       {required String email,
       required String password,
       required String name,
@@ -33,7 +33,7 @@ class AuthApiServiceImpl implements AuthApiService {
   }
 
   @override
-  void register(
+  Future<Either<Failure, void>> register(
       {required String email,
       required String password,
       required String name,
@@ -48,12 +48,12 @@ class AuthApiServiceImpl implements AuthApiService {
           "avatar": avatar
         });
 
-    result.fold((failure) {
+    return result.fold((failure) {
       failure as ApiFailure;
       dynamic msg = failure.message ?? (failure?.response?.data["message"]);
 
       if (msg is List) msg = msg.join(", ");
       return Left(AppFailure(msg));
-    }, (response) => null);
+    }, (response) => const Right(null));
   }
 }
