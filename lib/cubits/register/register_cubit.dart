@@ -21,5 +21,19 @@ class RegisterCubit extends Cubit<RegisterState> {
     print(state.form.getValue("email"));
     print(state.form.getValue("password"));
     print(state.form.getValue("confirmPassword"));
+
+    bool isValid = state.form.validate();
+
+    final password = state.form.getValue("password");
+    final confirmPassword = state.form.getValue("confirmPassword");
+
+    if (password != confirmPassword) {
+      final error = "A confirmação de senha deve ser igual a senha";
+      state.form.setError("confirmPassword", error);
+      return;
+    }
+
+
+    print(isValid);
   }
 }
