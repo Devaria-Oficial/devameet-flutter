@@ -15,47 +15,57 @@ class ChoiceAvatar extends StatelessWidget {
 
     return BlocBuilder<RegisterCubit, RegisterState>(
       builder: (context, state) {
-        return Container(
-            width: height * 0.1875,
-            height: height * 0.1875,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: DColors.white,
-              border: Border.all(color: DColors.primary3, width: 3),
-              image: DecorationImage(
-                image: fsp.Svg("assets/icons/empty_avatar.svg"),
-                alignment: Alignment.bottomCenter,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: SizedBox.fromSize(
-                      size: Size(height * 0.0625, height * 0.0625),
-                      child: ClipOval(
-                          child: Material(
-                        color: DColors.primary3,
-                        child: InkWell(
-                          splashColor: Colors.white,
-                          onTap: () {
-                            showDialog(context: context, builder: (_) => SelectAvatar(
-                              initialAvatar: state.form.getValue("avatar"),
-                              onSave: context.read<RegisterCubit>().changeAvatar,
-                            ));
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset("assets/icons/edit.svg")
-                            ]
-                          )
-                        ),
-                      )),
-                    ))
-              ],
-            ));
+
+        return StreamBuilder(
+          stream: state.form.getStream("avatar"),
+          builder: (context, snapshot) {
+            print("renderizei");
+            return Container(
+                width: height * 0.1875,
+                height: height * 0.1875,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: DColors.white,
+                  border: Border.all(color: DColors.primary3, width: 3),
+                  image:
+                  state.form.getValue("avatar").toString().isEmpty ?
+                  DecorationImage(
+                    image: fsp.Svg("assets/icons/empty_avatar.svg"),
+                    alignment: Alignment.bottomCenter,
+                  ) :
+                     DecorationImage(image: AssetImage("assets/devameet/Avatar/${state.form.getValue("avatar")}_front.png"), fit: BoxFit.contain)
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SizedBox.fromSize(
+                          size: Size(height * 0.0625, height * 0.0625),
+                          child: ClipOval(
+                              child: Material(
+                            color: DColors.primary3,
+                            child: InkWell(
+                              splashColor: Colors.white,
+                              onTap: () {
+                                showDialog(context: context, builder: (_) => SelectAvatar(
+                                  initialAvatar: state.form.getValue("avatar"),
+                                  onSave: context.read<RegisterCubit>().changeAvatar,
+                                ));
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset("assets/icons/edit.svg")
+                                ]
+                              )
+                            ),
+                          )),
+                        ))
+                  ],
+                ));
+          }
+        );
       }
     );
   }

@@ -2,16 +2,22 @@ import 'package:devameet_flutter/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+enum InputType {
+  text,
+  password
+}
+
 class InputField extends StatelessWidget {
   final String hint;
   final ValueChanged<String> onChanged;
   final String iconPath;
   final Stream<String>? stream;
   final String? initialValue;
+  final InputType? inputType;
 
 
   const InputField(
-      {super.key, required this.hint, required this.iconPath, required this.onChanged, this.stream, this.initialValue});
+      {super.key, required this.hint, required this.iconPath, required this.onChanged, this.stream, this.initialValue, this.inputType = InputType.text});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,7 @@ class InputField extends StatelessWidget {
                       border: InputBorder.none),
                   initialValue: initialValue,
                   onChanged: onChanged,
+                  obscureText: inputType == InputType.password,
                 ),
               ),
               if (snapshot.hasError) Text(snapshot.error.toString(), style: TextStyle(color: DColors.redError),)

@@ -28,6 +28,7 @@ class LoginForm extends StatelessWidget {
             SizedBox(height: height * 0.0375),
             InputField(
                 hint: "Senha",
+                inputType: InputType.password,
                 iconPath: "assets/icons/key.svg",
                 onChanged: (password) => context.read<LoginCubit>().changePassword(password),
                 stream: state.form.getStream("password"),

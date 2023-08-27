@@ -11,7 +11,7 @@ class RegisterState extends Equatable {
   factory RegisterState.initial() {
     return RegisterState(
         form: FormHandler({
-          "avatar": FormInput<String>("avatar_07",
+          "avatar": FormInput<String>("",
               validator: Validator().required(("Escolha um avatar"))),
           "name": FormInput<String>("",
               validator: Validator().required("O nome deve ser informado")),
@@ -29,7 +29,7 @@ class RegisterState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status, form];
 
   RegisterState copyWith({FormHandler? form, RegisterStatus? status}) {
     return RegisterState(
