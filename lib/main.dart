@@ -1,7 +1,9 @@
+import 'package:devameet_flutter/cubits/app/app_cubit.dart';
 import 'package:devameet_flutter/router/app_router.dart';
 import 'package:devameet_flutter/views/login.dart';
 import 'package:devameet_flutter/views/register.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'injection_container.dart' as di;
 
@@ -16,12 +18,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Devameet',
-      theme: ThemeData(
-        fontFamily: "Biennale"
+    return BlocProvider(
+      create: (_) => di.sl<AppCubit>(),
+      child: Builder(
+        builder: (context) {
+          return MaterialApp.router(
+            title: 'Devameet',
+            theme: ThemeData(
+              fontFamily: "Biennale"
+            ),
+            routerConfig: AppRouter(appCubit: context.read<AppCubit>()).router,
+          );
+        }
       ),
-      routerConfig: AppRouter().router,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:devameet_flutter/constants/color.dart';
+import 'package:devameet_flutter/cubits/app/app_cubit.dart';
 import 'package:devameet_flutter/cubits/login/login_cubit.dart';
 import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,12 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocConsumer<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state.status == LoginStatus.success) {
+            context.read<AppCubit>().performLogin();
+          }
+        },
         builder: (context, state) => SingleChildScrollView(
               reverse: true,
               child: Column(children: [

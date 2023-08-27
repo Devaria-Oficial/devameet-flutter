@@ -34,7 +34,7 @@ class LoginCubit extends Cubit<LoginState> {
     failureOrAuth.fold((failure) {
       failure as AppFailure;
       emit(state.copyWith(errorMessage: failure.error, status: LoginStatus.error));
-    }, (r) => null);
+    }, (r) => emit(state.copyWith(status: LoginStatus.success)));
 
 
   }
