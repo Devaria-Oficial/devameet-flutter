@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/models/auth_model.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +10,8 @@ class AppCubit extends Cubit<AppState> {
 
   AppCubit({required this.authApiService}) : super(AppState.initial());
 
-  void performLogin() {
-    print("Avisando pro App Cubit que estou logado");
+  void performLogin(AuthModel auth) {
+    authApiService.saveAuthLocal(auth);
     emit(state.copyWith(status: AppStatus.authenticated));
   }
 }

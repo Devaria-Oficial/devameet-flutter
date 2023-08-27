@@ -16,4 +16,12 @@ class AuthModel extends Equatable {
     return AuthModel(name: json['name'], email: json['email'], token: json['token']);
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'token': token
+    };
+  }
+
 }

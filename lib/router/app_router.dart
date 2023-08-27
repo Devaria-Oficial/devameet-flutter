@@ -5,9 +5,23 @@ import 'dart:async';
 import 'package:devameet_flutter/views/login.dart';
 import 'package:devameet_flutter/views/register.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../cubits/app/app_cubit.dart';
+
+
+class PrivatePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text("Exemplo de pagina privada"),
+      ),
+    );
+  }
+
+}
 
 class AppRouter {
 
@@ -16,13 +30,26 @@ class AppRouter {
   AppRouter({required this.appCubit});
 
   late final GoRouter router = GoRouter(routes: [
-    GoRoute(path: "/", builder: (context, state) => RegisterPage()),
+    GoRoute(path: "/", builder: (context, state) => PrivatePage()),
     GoRoute(path: "/sign_up", builder: (context, state) => RegisterPage()),
     GoRoute(path: "/sign_in", builder: (context, state) => LoginPage()),
 
   ],
   redirect: (context, state) {
-    print(appCubit.state.status);
+
+    final logged = appCubit.state.status == AppStatus.authenticated;
+    final publicRoutes = ['/sign_in', '/sign_up'];
+
+    if (!logged & !publicRoutes.contains(state.fullPath)) {
+      return "/sign_in";
+    }
+
+    if (logged && publicRoutes.contains(state.fullPath)) {
+      return '/';
+    }
+
+    return null;
+
   },
   refreshListenable: GoRouterRefreshStream(appCubit.stream)
 

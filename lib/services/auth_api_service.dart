@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:devameet_flutter/errors/failures.dart';
 import 'package:devameet_flutter/models/auth_model.dart';
 import 'package:devameet_flutter/services/http_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class AuthApiService {
   Future<Either<Failure, AuthModel>> login(String email, String password);
@@ -10,12 +13,18 @@ abstract class AuthApiService {
       required String password,
       required String name,
       required String avatar});
+  Future<void> saveAuthLocal(AuthModel auth);
+}
+
+enum StorageKeys {
+  auth
 }
 
 class AuthApiServiceImpl implements AuthApiService {
   final HttpService httpService;
+  final FlutterSecureStorage secureStorage;
 
-  AuthApiServiceImpl({required this.httpService});
+  AuthApiServiceImpl({required this.httpService, required this.secureStorage});
 
   @override
   Future<Either<Failure, AuthModel>> login(
@@ -55,5 +64,10 @@ class AuthApiServiceImpl implements AuthApiService {
       if (msg is List) msg = msg.join(", ");
       return Left(AppFailure(msg));
     }, (response) => const Right(null));
+  }
+
+  @override
+  Future<void> saveAuthLocal(AuthModel auth) async {
+    await secureStorage.write(key: StorageKeys.auth.toString(), value: jsonEncode(auth));
   }
 }

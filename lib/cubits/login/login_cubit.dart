@@ -1,4 +1,5 @@
 import 'package:devameet_flutter/errors/failures.dart';
+import 'package:devameet_flutter/models/auth_model.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -34,7 +35,7 @@ class LoginCubit extends Cubit<LoginState> {
     failureOrAuth.fold((failure) {
       failure as AppFailure;
       emit(state.copyWith(errorMessage: failure.error, status: LoginStatus.error));
-    }, (r) => emit(state.copyWith(status: LoginStatus.success)));
+    }, (authModel) => emit(state.copyWith(status: LoginStatus.success, auth: authModel)));
 
 
   }

@@ -6,13 +6,15 @@ class LoginState extends Equatable {
   final LoginStatus status;
   final FormHandler form;
   final String? errorMessage;
-  const LoginState({required this.form, this.errorMessage, required this.status});
+  final AuthModel? auth;
+  const LoginState({required this.form, this.errorMessage, required this.status, required this.auth});
 
   @override
   List<Object?> get props => [status, errorMessage];
 
   factory LoginState.initial() {
     return LoginState(
+        auth: null,
         status: LoginStatus.initial,
         form: FormHandler({
       "email": FormInput<String>('',
@@ -24,8 +26,9 @@ class LoginState extends Equatable {
     }));
   }
 
-  LoginState copyWith({FormHandler? form, String? errorMessage, LoginStatus? status}) {
+  LoginState copyWith({FormHandler? form, String? errorMessage, LoginStatus? status, AuthModel? auth}) {
     return LoginState(
+        auth: auth ?? this.auth,
         status: status ?? this.status,
         form: form ?? this.form,
         errorMessage: errorMessage ?? this.errorMessage);

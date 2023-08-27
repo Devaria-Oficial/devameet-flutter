@@ -29,7 +29,7 @@ class LoginView extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.success) {
-            context.read<AppCubit>().performLogin();
+            context.read<AppCubit>().performLogin(state.auth!);
           }
         },
         builder: (context, state) => SingleChildScrollView(
