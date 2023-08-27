@@ -13,7 +13,10 @@ abstract class AuthApiService {
       required String password,
       required String name,
       required String avatar});
+
   Future<void> saveAuthLocal(AuthModel auth);
+  Future<Either<Failure, AuthModel>> getLatestLogin();
+  Future<void> cleanAuthLocal();
 }
 
 enum StorageKeys {
@@ -69,5 +72,19 @@ class AuthApiServiceImpl implements AuthApiService {
   @override
   Future<void> saveAuthLocal(AuthModel auth) async {
     await secureStorage.write(key: StorageKeys.auth.toString(), value: jsonEncode(auth));
+  }
+
+  @override
+  Future<Either<Failure, AuthModel>> getLatestLogin() async{
+    final authString = await secureStorage.read(key: StorageKeys.auth.toString());
+
+    if (authString == null) return Left(AppFailure("Auth model not found in secure storage"));
+
+    return Right(AuthModel.fromJson(json.decode(authString)));
+  }
+
+  @override
+  Future<void> cleanAuthLocal() async {
+    await secureStorage.delete(key: StorageKeys.auth.toString());
   }
 }

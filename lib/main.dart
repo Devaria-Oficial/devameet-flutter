@@ -11,6 +11,7 @@ void main() async {
   di.init();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => di.sl<AppCubit>(),
+      create: (_) => di.sl<AppCubit>()..init(),
       child: Builder(
         builder: (context) {
           return MaterialApp.router(
