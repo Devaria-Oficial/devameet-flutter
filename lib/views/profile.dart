@@ -1,6 +1,7 @@
 
 
 import 'package:devameet_flutter/components/profile/edit_avatar.dart';
+import 'package:devameet_flutter/components/profile/logout_button.dart';
 import 'package:devameet_flutter/components/profile/profile_action.dart';
 import 'package:devameet_flutter/components/profile/user_form.dart';
 import 'package:devameet_flutter/constants/color.dart';
@@ -63,14 +64,11 @@ class ProfileView extends StatelessWidget {
                   bottom: BorderSide(color: DColors.grey1, width: 1)
               )
           ),
-          child: UserForm(),
+          child: const UserForm(),
         ),
-        Spacer(),
+        const Spacer(),
         Container(
-          child: ElevatedButton(
-            onPressed: context.read<AppCubit>().performLogout,
-            child: Text("Sair"),
-          ),
+          child: const LogoutButton()
         ),
       ],
     );
