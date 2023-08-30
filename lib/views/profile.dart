@@ -1,6 +1,7 @@
 
 
 import 'package:devameet_flutter/components/profile/edit_avatar.dart';
+import 'package:devameet_flutter/components/profile/user_form.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/app/app_cubit.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,15 @@ class ProfileView extends StatelessWidget {
           ),
           child: EditAvatar(),
         ),
-        Container(),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: height * 0.025),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: DColors.grey1, width: 1)
+              )
+          ),
+          child: UserForm(),
+        ),
         Spacer(),
         Container(
           child: ElevatedButton(
