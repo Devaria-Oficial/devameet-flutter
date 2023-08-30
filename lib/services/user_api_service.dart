@@ -1,7 +1,10 @@
+import 'package:dartz/dartz.dart';
+import 'package:devameet_flutter/errors/failures.dart';
+import 'package:devameet_flutter/models/user_model.dart';
 import 'package:devameet_flutter/services/http_service.dart';
 
 abstract class UserApiService {
-  void get();
+  Future<Either<Failure, UserModel>> get();
 }
 
 class UserApiServiceImpl implements UserApiService {
@@ -10,9 +13,10 @@ class UserApiServiceImpl implements UserApiService {
   UserApiServiceImpl({required this.httpService});
 
   @override
-  void get() async {
+  Future<Either<Failure, UserModel>> get() async {
     final result = await httpService.request(path: "/user", method: "GET");
 
-    result.fold((l) => print(l), (r) => print(r));
+    return result.fold((l) => Left(AppFailure("Cannot load user")),
+        (response) => Right(UserModel.fromJson(response.data)));
   }
 }

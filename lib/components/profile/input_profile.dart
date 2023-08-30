@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class InputProfile extends StatelessWidget {
   final String label;
-  const InputProfile({super.key, required this.label});
+  final Stream? stream;
+  const InputProfile({super.key, required this.label, this.stream});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,20 @@ class InputProfile extends StatelessWidget {
             )),
         Expanded(
           flex: 7,
-          child: TextFormField(
-            decoration: const InputDecoration(border: InputBorder.none),
+          child: StreamBuilder(
+            stream: stream,
+            builder: (context, snapshot) {
+
+              if (snapshot.hasData && snapshot.data != "") {
+                return TextFormField(
+                  initialValue: snapshot.data,
+                  decoration: const InputDecoration(border: InputBorder.none),
+                );
+              }
+
+              return LinearProgressIndicator();
+
+            }
           ),
         ),
         Expanded(child: SvgPicture.asset("assets/icons/x-circle.svg")),
