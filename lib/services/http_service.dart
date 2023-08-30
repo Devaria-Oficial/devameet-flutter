@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 
 abstract class HttpService {
   Future<Either<Failure, Response>> request({required String path, required String method, Map<String, dynamic>? data });
+  void addHeader(Map<String, dynamic> header);
 }
 
 abstract class HttpMessages {
@@ -42,6 +43,11 @@ class HttpServiceImpl implements HttpService {
       return Left(ApiFailure(statusCode: e.response?.statusCode as int, response: e.response));
 
     }
+  }
+
+  @override
+  void addHeader(Map<String, dynamic> header) {
+    client.options.headers.addAll(header);
   }
 }
 

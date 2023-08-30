@@ -22,7 +22,7 @@ void init() {
   // CUBITS
   sl.registerFactory(() => LoginCubit(authApiService: sl()));
   sl.registerFactory(() => RegisterCubit(authApiService: sl()));
-  sl.registerFactory(() => AppCubit(authApiService: sl()));
+  sl.registerFactory(() => AppCubit(authApiService: sl(), httpService: sl()));
   sl.registerFactory(() => ProfileCubit(userApiService: sl()));
 
   // CORE

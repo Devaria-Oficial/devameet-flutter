@@ -1,5 +1,3 @@
-
-
 import 'package:devameet_flutter/services/http_service.dart';
 
 abstract class UserApiService {
@@ -17,5 +15,4 @@ class UserApiServiceImpl implements UserApiService {
 
     result.fold((l) => print(l), (r) => print(r));
   }
-
 }

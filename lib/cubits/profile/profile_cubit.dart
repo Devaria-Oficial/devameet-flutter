@@ -10,5 +10,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit({required this.userApiService}) : super(ProfileState.initial());
 
+  void loadUser() async {
+    userApiService.get();
+  }
 
 }

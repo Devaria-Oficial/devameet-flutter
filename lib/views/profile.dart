@@ -6,6 +6,8 @@ import 'package:devameet_flutter/components/profile/profile_action.dart';
 import 'package:devameet_flutter/components/profile/user_form.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/app/app_cubit.dart';
+import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
+import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +17,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ProfileView()
-      )
+      body: BlocProvider(
+          create: (_) => sl<ProfileCubit>()..loadUser(),
+          child: ProfileView())
     );
   }
 
@@ -30,47 +32,52 @@ class ProfileView extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: DColors.grey1, width: 1)
-            )
-          ),
-          padding: EdgeInsets.only(
-            top: height * 0.05,
-            left: height * 0.025,
-            right: height * 0.025,
-            bottom: height * 0.01875
-          ),
-          child: ProfileAction(),
-        ),
-        Container(
-          width: width,
-          padding: EdgeInsets.symmetric(vertical: height * 0.025),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: DColors.grey1, width: 1)
-            )
-          ),
-          child: EditAvatar(),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: height * 0.025),
-          decoration: BoxDecoration(
-              border: Border(
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
                   bottom: BorderSide(color: DColors.grey1, width: 1)
-              )
-          ),
-          child: const UserForm(),
-        ),
-        const Spacer(),
-        Container(
-          child: const LogoutButton()
-        ),
-      ],
+                )
+              ),
+              padding: EdgeInsets.only(
+                top: height * 0.05,
+                left: height * 0.025,
+                right: height * 0.025,
+                bottom: height * 0.01875
+              ),
+              child: ProfileAction(),
+            ),
+            Container(
+              width: width,
+              padding: EdgeInsets.symmetric(vertical: height * 0.025),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: DColors.grey1, width: 1)
+                )
+              ),
+              child: EditAvatar(),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: height * 0.025),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: DColors.grey1, width: 1)
+                  )
+              ),
+              child: const UserForm(),
+            ),
+            const Spacer(),
+            Container(
+              child: const LogoutButton()
+            ),
+          ],
+        );
+      }
     );
   }
   
