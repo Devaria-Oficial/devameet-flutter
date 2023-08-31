@@ -4,6 +4,7 @@ import 'package:devameet_flutter/components/profile/edit_avatar.dart';
 import 'package:devameet_flutter/components/profile/logout_button.dart';
 import 'package:devameet_flutter/components/profile/profile_action.dart';
 import 'package:devameet_flutter/components/profile/user_form.dart';
+import 'package:devameet_flutter/components/shared/menu.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/app/app_cubit.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
@@ -20,7 +21,8 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
           create: (_) => sl<ProfileCubit>()..loadUser(),
-          child: ProfileView())
+          child: ProfileView()),
+      bottomNavigationBar: const Menu(currentSelected: 2,),
     );
   }
 
