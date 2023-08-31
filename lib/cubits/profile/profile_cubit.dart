@@ -17,8 +17,19 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     failureOrUser.fold((l) => emit(state.copyWith(status: ProfileStatus.error)),
         (user) {
+          if(isClosed) return;
           emit(state.copyWith(status: ProfileStatus.userLoaded, user: user));
           state.form.setValue("name", user.name);
         });
   }
+
+  void changeAvatar(avatar) => emit(state.copyWith(user: state.user?.copyWith(avatar: avatar)));
+  void changeName(name) => state.form.setValue("name", name);
+
+  void performUpdate() {
+    state.form.validate();
+    print(state.user?.avatar);
+    print(state.form.getValue("name"));
+  }
+
 }

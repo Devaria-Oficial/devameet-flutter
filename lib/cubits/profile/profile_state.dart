@@ -10,11 +10,11 @@ class ProfileState extends Equatable {
   const ProfileState({required this.status, required this.user, required this.form});
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status, user];
 
   factory ProfileState.initial() {
     return ProfileState(status: ProfileStatus.initial, user: null, form: FormHandler({
-      "name": FormInput<String>('', validator: Validator().required("O nome não pode ser vazio."))
+      "name": FormInput<String?>(null, validator: Validator().required("O nome não pode ser vazio."))
     }));
   }
 

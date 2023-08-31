@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
@@ -36,4 +34,11 @@ class UserModel extends Equatable {
     };
   }
 
+  UserModel copyWith({String? name, String? avatar}) {
+    return UserModel(
+        id: id,
+        name: name ?? this.name,
+        email: email,
+        avatar: avatar ?? this.avatar);
+  }
 }
