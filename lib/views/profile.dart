@@ -10,6 +10,7 @@ import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -33,7 +34,12 @@ class ProfileView extends StatelessWidget {
 
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+
+        if(state.status == ProfileStatus.userUpdated) {
+          context.go("/");
+        }
+      },
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,

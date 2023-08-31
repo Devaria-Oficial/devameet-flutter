@@ -2,6 +2,7 @@ import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileAction extends StatelessWidget {
   const ProfileAction({super.key});
@@ -14,7 +15,7 @@ class ProfileAction extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
-                onPressed: () {},
+                onPressed: () => context.go("/"),
                 style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,

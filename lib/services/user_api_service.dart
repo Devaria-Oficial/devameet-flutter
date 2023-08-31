@@ -5,6 +5,7 @@ import 'package:devameet_flutter/services/http_service.dart';
 
 abstract class UserApiService {
   Future<Either<Failure, UserModel>> get();
+  Future<Either<Failure, void>> update(UserModel user);
 }
 
 class UserApiServiceImpl implements UserApiService {
@@ -16,7 +17,18 @@ class UserApiServiceImpl implements UserApiService {
   Future<Either<Failure, UserModel>> get() async {
     final result = await httpService.request(path: "/user", method: "GET");
 
-    return result.fold((l) => Left(AppFailure("Cannot load user")),
+    return result.fold((failure) => Left(AppFailure("Cannot load user")),
         (response) => Right(UserModel.fromJson(response.data)));
+  }
+
+  @override
+  Future<Either<Failure, void>> update(UserModel user) async {
+    final result = await httpService.request(
+        path: "/user/",
+        method: "PUT",
+        data: {"name": user.name, "avatar": user.avatar});
+
+    return result.fold((failure) => Left(AppFailure("Error on update user")),
+        (response) => const Right(null));
   }
 }

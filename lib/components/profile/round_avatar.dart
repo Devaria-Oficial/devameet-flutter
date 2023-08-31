@@ -19,7 +19,7 @@ class RoundAvatar extends StatelessWidget {
             color: DColors.white2,
             border: Border.all(color: DColors.primary3, width: 3),
             image:
-                state.status == ProfileStatus.userLoaded && state.user != null
+                state.user != null
                     ? DecorationImage(
                         image: AssetImage(
                             "assets/devameet/Avatar/${state.user!.avatar}_front.png"),
