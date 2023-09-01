@@ -1,9 +1,11 @@
 
 
+import 'package:devameet_flutter/cubits/meet/meet_cubit.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/cubits/register/register_cubit.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:devameet_flutter/services/http_service.dart';
+import 'package:devameet_flutter/services/meet_api_service.dart';
 import 'package:devameet_flutter/services/user_api_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -18,12 +20,14 @@ void init() {
   // SERVICES
   sl.registerLazySingleton<AuthApiService>(() => AuthApiServiceImpl(httpService: sl(), secureStorage: sl()));
   sl.registerLazySingleton<UserApiService>(() => UserApiServiceImpl(httpService: sl()));
+  sl.registerLazySingleton<MeetApiService>(() => MeetApiServiceImpl(httpService: sl()));
 
   // CUBITS
   sl.registerFactory(() => LoginCubit(authApiService: sl()));
   sl.registerFactory(() => RegisterCubit(authApiService: sl()));
   sl.registerFactory(() => AppCubit(authApiService: sl(), httpService: sl()));
   sl.registerFactory(() => ProfileCubit(userApiService: sl()));
+  sl.registerFactory(() => MeetCubit(meetApiService: sl()));
 
   // CORE
   sl.registerLazySingleton<HttpService>(() => HttpServiceImpl(dotenv.get("API_URL")));
