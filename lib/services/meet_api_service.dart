@@ -18,7 +18,6 @@ class MeetApiServiceImpl implements MeetApiService {
   Future<Either<Failure, List<MeetModel>>> list() async {
     final result = await httpService.request(path: "/meet", method: "GET");
 
-    print(result);
 
     return result.fold((failure) => Left(AppFailure("Cannot load meets")), (response){
       List<MeetModel> meets = [];
