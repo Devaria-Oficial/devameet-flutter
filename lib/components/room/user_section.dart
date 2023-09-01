@@ -26,7 +26,6 @@ class UserSection extends StatelessWidget {
         width: width,
         padding: EdgeInsets.all(height * 0.025),
         decoration: BoxDecoration(
-          color: DColors.white,
           border: Border(bottom: BorderSide(color: DColors.grey1, width: 0.5))
         ),
         child: Column(

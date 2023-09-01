@@ -3,6 +3,7 @@ import 'package:devameet_flutter/cubits/meet/meet_cubit.dart';
 import 'package:devameet_flutter/models/meet_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -25,7 +26,9 @@ class MeetList extends StatelessWidget {
 
     return BlocBuilder<MeetCubit, MeetState>(builder: (context, state) {
 
-      print(state);
+      if(state.meets.isEmpty) {
+        return const EmptyMeets();
+      }
 
       return ListView.builder(
         itemCount: state.meets.length,
@@ -37,6 +40,34 @@ class MeetList extends StatelessWidget {
   }
 
 }
+
+
+class EmptyMeets extends StatelessWidget {
+  const EmptyMeets({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
+    return Container(
+      margin: EdgeInsets.only(top: height * 0.0875),
+      child: Column(
+        children: [
+          SvgPicture.asset("assets/images/empty.svg"),
+          Text("Você ainda não possui reuniões criadas :(", style: TextStyle(
+            color: DColors.grey2,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            height: 2.85,
+            letterSpacing: 0.14
+          ),)
+        ],
+      ),
+    );
+  }
+
+}
+
 
 class MeetItem extends StatelessWidget {
   final MeetModel meet;
@@ -71,9 +102,26 @@ class MeetItem extends StatelessWidget {
         trailing: Wrap(
           spacing: width * 0.022222222222222,
           children: [
-            SvgPicture.asset("assets/icons/door.svg", width: width * 0.044444444444444, color: DColors.grey2,),
-            SvgPicture.asset("assets/icons/copy.svg", width: width * 0.044444444444444, color: DColors.grey2),
-            SvgPicture.asset("assets/icons/trash.svg", width: width * 0.044444444444444, color: DColors.grey2),
+            InkWell(
+              splashColor: DColors.grey1,
+              onTap: () {},
+              child: SvgPicture.asset("assets/icons/door.svg", width: width * 0.044444444444444, color: DColors.grey2,),
+            ),
+            InkWell(
+              splashColor: DColors.grey1,
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: meet.link)).then((_) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Link copiado!"),));
+                });
+              },
+              child: SvgPicture.asset("assets/icons/copy.svg", width: width * 0.044444444444444, color: DColors.grey2,),
+            ),
+            InkWell(
+              splashColor: DColors.grey1,
+              onTap: () {},
+              child: SvgPicture.asset("assets/icons/trash.svg", width: width * 0.044444444444444, color: DColors.grey2,),
+            ),
           ],
         )
       ),

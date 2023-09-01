@@ -3,6 +3,7 @@ import 'package:devameet_flutter/components/room/meets_section.dart';
 import 'package:devameet_flutter/components/room/user_section.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
 import 'package:devameet_flutter/components/shared/menu.dart';
+import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/meet/meet_cubit.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/injection_container.dart';
@@ -17,6 +18,7 @@ class MyMeetsPage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: DColors.white,
       appBar: Header(height: height * 0.075,),
       body: MultiBlocProvider(
           providers: [
