@@ -1,4 +1,3 @@
-
 import 'package:devameet_flutter/components/room/meets_section.dart';
 import 'package:devameet_flutter/components/room/user_section.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
@@ -19,17 +18,21 @@ class MyMeetsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: DColors.white,
-      appBar: Header(height: height * 0.075,),
-      body: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => sl<ProfileCubit>()..loadUser(),),
-            BlocProvider(create: (_) => sl<MeetCubit>()..loadMeets(), lazy: false,)
-          ],
-          child: const MyMeetsView()),
+      appBar: Header(
+        height: height * 0.075,
+      ),
+      body: MultiBlocProvider(providers: [
+        BlocProvider(
+          create: (_) => sl<ProfileCubit>()..loadUser(),
+        ),
+        BlocProvider(
+          create: (_) => sl<MeetCubit>()..loadMeets(),
+          lazy: false,
+        )
+      ], child: const MyMeetsView()),
       bottomNavigationBar: const Menu(currentSelected: 0),
     );
   }
-
 }
 
 class MyMeetsView extends StatelessWidget {
@@ -37,9 +40,11 @@ class MyMeetsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [UserSection(), Expanded(child: MeetsSection())]
-    );
+    return Column(children: [
+      UserSection(
+        headerText: "Minhas reuniões",
+      ),
+      Expanded(child: MeetsSection())
+    ]);
   }
-  
 }

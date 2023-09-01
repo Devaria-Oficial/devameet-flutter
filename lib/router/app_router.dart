@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:devameet_flutter/cubits/app/app_cubit.dart';
+import 'package:devameet_flutter/views/entrance_room.dart';
 import 'package:devameet_flutter/views/login.dart';
 import 'package:devameet_flutter/views/my_meets.dart';
 import 'package:devameet_flutter/views/profile.dart';
@@ -26,7 +27,7 @@ class AppRouter {
 
           print(state.uri.queryParameters);
 
-          return ProfilePage();
+          return EntranceRoomPage();
         }),
 
       ],

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserSection extends StatelessWidget {
-  const UserSection({super.key});
+  final String headerText;
+  const UserSection({super.key, required this.headerText});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class UserSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Minhas reuniões",
+              headerText,
               style: TextStyle(
                   color: DColors.grey2,
                   fontSize: 12,

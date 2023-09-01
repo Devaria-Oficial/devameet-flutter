@@ -3,6 +3,7 @@
 import 'package:devameet_flutter/cubits/meet/meet_cubit.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/cubits/register/register_cubit.dart';
+import 'package:devameet_flutter/cubits/room/room_cubit.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:devameet_flutter/services/http_service.dart';
 import 'package:devameet_flutter/services/meet_api_service.dart';
@@ -28,6 +29,7 @@ void init() {
   sl.registerFactory(() => AppCubit(authApiService: sl(), httpService: sl()));
   sl.registerFactory(() => ProfileCubit(userApiService: sl()));
   sl.registerFactory(() => MeetCubit(meetApiService: sl()));
+  sl.registerFactory(() => RoomCubit());
 
   // CORE
   sl.registerLazySingleton<HttpService>(() => HttpServiceImpl(dotenv.get("API_URL")));
