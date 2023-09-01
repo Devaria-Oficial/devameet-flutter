@@ -4,6 +4,7 @@ import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class Menu extends StatelessWidget {
   final int currentSelected;
@@ -24,6 +25,10 @@ class Menu extends StatelessWidget {
             currentIndex: currentSelected,
             selectedFontSize: 0,
             elevation: 0,
+            onTap: (index) {
+              final pages = ["/", "/entrance_room", "/profile"];
+              context.go(pages[index]);
+            },
             backgroundColor: DColors.primary3.withOpacity(0.03),
             items: [
               BottomNavigationBarItem(

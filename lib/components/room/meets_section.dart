@@ -14,7 +14,16 @@ class MeetsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(child: MeetList(), onRefresh: () async {});
+    return BlocBuilder<MeetCubit, MeetState>(
+      builder: (context, state) {
+
+        Future refresh() async {
+          context.read<MeetCubit>().loadMeets();
+        }
+
+        return RefreshIndicator(child: MeetList(), onRefresh: refresh);
+      }
+    );
   }
 }
 
@@ -24,6 +33,14 @@ class MeetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MeetCubit, MeetState>(builder: (context, state) {
+
+      if(state.status == MeetStatus.loading) {
+        return Center(child: CircularProgressIndicator(
+          backgroundColor: DColors.primary3,
+          color: DColors.secondary2,
+        ));
+      }
+
       if (state.meets.isEmpty) {
         return const EmptyMeets();
       }
