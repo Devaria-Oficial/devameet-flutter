@@ -1,7 +1,11 @@
 
+import 'package:devameet_flutter/components/room/user_section.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
 import 'package:devameet_flutter/components/shared/menu.dart';
+import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
+import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyMeetsPage extends StatelessWidget {
   const MyMeetsPage({super.key});
@@ -12,7 +16,9 @@ class MyMeetsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: Header(height: height * 0.075,),
-      body: const MyMeetsView(),
+      body: BlocProvider(
+          create: (_) => sl<ProfileCubit>()..loadUser(),
+          child: const MyMeetsView()),
       bottomNavigationBar: const Menu(currentSelected: 0),
     );
   }
@@ -24,9 +30,8 @@ class MyMeetsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child:
-        Text("Minhas Reunioes")
+    return Column(
+      children: [UserSection(),]
     );
   }
   
