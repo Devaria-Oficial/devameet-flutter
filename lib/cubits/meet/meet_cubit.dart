@@ -19,9 +19,14 @@ class MeetCubit extends Cubit<MeetState> {
         (l) => emit(state.copyWith(status: MeetStatus.error)),
         (meets) {
           if(isClosed) return;
-
+          print(meets);
           emit(state.copyWith(status: MeetStatus.success, meets: meets));
 
         });
+  }
+
+  void performDelete(MeetModel meet) async {
+    await meetApiService.delete(meet);
+    loadMeets();
   }
 }

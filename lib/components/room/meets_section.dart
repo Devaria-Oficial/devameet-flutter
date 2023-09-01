@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class MeetsSection extends StatelessWidget {
   const MeetsSection({super.key});
@@ -98,7 +99,9 @@ class MeetItem extends StatelessWidget {
             children: [
               InkWell(
                 splashColor: DColors.grey1,
-                onTap: () {},
+                onTap: () {
+                  context.goNamed("entrance_room", queryParameters: {"link": meet.link});
+                },
                 child: SvgPicture.asset(
                   "assets/icons/door.svg",
                   width: width * 0.044444444444444,
@@ -125,7 +128,7 @@ class MeetItem extends StatelessWidget {
                 splashColor: DColors.grey1,
                 onTap: () {
                   showDialog(
-                      context: context, builder: (_) => DeleteMeetModal());
+                      context: context, builder: (_) => DeleteMeetModal(meet: meet, meetContext: context,));
                 },
                 child: SvgPicture.asset(
                   "assets/icons/trash.svg",
@@ -147,7 +150,9 @@ extension ColorExtension on String {
 }
 
 class DeleteMeetModal extends StatelessWidget {
-  const DeleteMeetModal({super.key});
+  final MeetModel meet;
+  final BuildContext meetContext;
+  const DeleteMeetModal({super.key, required this.meet, required this.meetContext});
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +215,10 @@ class DeleteMeetModal extends StatelessWidget {
               width: width * 0.41666666666667,
               child: Button(
                 text: "Confirmar",
-                onPressed: () => Navigator.pop(context, false),
+                onPressed: () {
+                  meetContext.read<MeetCubit>().performDelete(meet);
+                  Navigator.pop(context, false);
+                },
               ),
             )
           ],

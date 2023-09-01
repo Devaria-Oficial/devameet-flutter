@@ -22,6 +22,13 @@ class AppRouter {
         GoRoute(path: "/profile", builder: (context, state) => ProfilePage()),
         GoRoute(path: "/sign_up", builder: (context, state) => RegisterPage()),
         GoRoute(path: "/sign_in", builder: (context, state) => LoginPage()),
+        GoRoute(path: "/entrance_room", name: "entrance_room", builder: (context, state) {
+
+          print(state.uri.queryParameters);
+
+          return ProfilePage();
+        }),
+
       ],
       redirect: (context, state) {
         final logged = appCubit.state.status == AppStatus.authenticated;
