@@ -10,15 +10,14 @@ class RoomRender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RoomCubit, RoomState>(builder: (context, state) {
-      return Stack(
-          children: [
-            ...state.roomRenderItems
-              .map<Widget>((item) => RoomItem(item: item))
-              .toList(),
-            RoomLobby()
-        ]
-      );
-
+      return Stack(children: [
+        ...state.roomRenderItems
+            .map<Widget>((item) => RoomItem(item: item))
+            .toList(),
+        Visibility(
+            visible: state.status == RoomStatus.roomBuilt,
+            child: const RoomLobby())
+      ]);
     });
   }
 }

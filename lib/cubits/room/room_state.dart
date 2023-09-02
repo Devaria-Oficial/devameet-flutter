@@ -2,7 +2,7 @@
 
 part of 'room_cubit.dart';
 
-enum RoomStatus { initial, loading, success, notFound, roomBuilt}
+enum RoomStatus { initial, loading, success, notFound, roomBuilt, enterMeet}
 
 class RoomState extends Equatable {
 

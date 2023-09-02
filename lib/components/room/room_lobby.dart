@@ -1,5 +1,7 @@
 import 'package:devameet_flutter/constants/color.dart';
+import 'package:devameet_flutter/cubits/room/room_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RoomLobby extends StatelessWidget {
@@ -25,7 +27,7 @@ class RoomLobby extends StatelessWidget {
             SizedBox(
               height: height * 0.025,
             ),
-            TextButton(onPressed: () {},
+            TextButton(onPressed: () => context.read<RoomCubit>().changeStatus(RoomStatus.enterMeet),
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)

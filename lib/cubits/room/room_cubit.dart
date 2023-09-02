@@ -14,6 +14,7 @@ class RoomCubit extends Cubit<RoomState> {
   RoomCubit({required this.roomApiService, required this.roomRenderService}) : super(RoomState.initial());
 
   void changeLink(link) => state.form.setValue("link", link);
+  void changeStatus(RoomStatus status) => emit(state.copyWith(status: status));
 
   void loadRoom(String link, double width) async {
     emit(state.copyWith(status: RoomStatus.loading));

@@ -7,6 +7,7 @@ import 'package:devameet_flutter/components/shared/menu.dart';
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/cubits/room/room_cubit.dart';
+import 'package:devameet_flutter/cubits/room_ws/room_ws_cubit.dart';
 import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,10 @@ class RoomPage extends StatelessWidget {
             create: (_) => sl<RoomCubit>()..loadRoom(link, width),
             lazy: false,
           ),
+          BlocProvider(
+            create: (_) => sl<RoomWsCubit>(),
+            lazy: false,
+          ),
           ],
         child: const RoomView(),
       ),
@@ -51,7 +56,14 @@ class RoomView extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    return BlocBuilder<RoomCubit, RoomState>(
+    return BlocConsumer<RoomCubit, RoomState>(
+      listener: (context, state) {
+
+        if (state.status == RoomStatus.enterMeet) {
+          context.read<RoomWsCubit>().start();
+        }
+
+      },
       builder: (context, state) {
         if (state.status == RoomStatus.loading) {
           return Center(child: CircularProgressIndicator(
