@@ -60,7 +60,10 @@ class RoomView extends StatelessWidget {
       listener: (context, state) {
 
         if (state.status == RoomStatus.enterMeet) {
-          context.read<RoomWsCubit>().start();
+
+          final user = context.read<ProfileCubit>().state.user;
+
+          context.read<RoomWsCubit>().start(state.room!, user!);
         }
 
       },

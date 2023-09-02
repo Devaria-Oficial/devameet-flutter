@@ -4,7 +4,7 @@ abstract class SocketService {
   void connect();
   void disconnect();
   void on(String event, dynamic Function(dynamic) handler);
-  void emit(String event, [dynamic, data]);
+  void emit(String event, [dynamic data]);
 }
 
 class SocketServiceImpl implements SocketService {
@@ -24,7 +24,7 @@ class SocketServiceImpl implements SocketService {
   }
 
   @override
-  void emit(String event, [dynamic, data]) {
+  void emit(String event, [dynamic data]) {
     socket.emit(event, data);
   }
 
