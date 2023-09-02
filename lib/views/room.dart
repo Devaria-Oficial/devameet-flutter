@@ -2,6 +2,7 @@
 import 'package:devameet_flutter/components/room/meet_detail.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
 import 'package:devameet_flutter/components/shared/menu.dart';
+import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
 import 'package:devameet_flutter/cubits/room/room_cubit.dart';
 import 'package:devameet_flutter/injection_container.dart';
@@ -44,12 +45,23 @@ class RoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          MeetDetail(),
-        ],
-      ),
+    return BlocBuilder<RoomCubit, RoomState>(
+      builder: (context, state) {
+        if (state.status == RoomStatus.loading) {
+          return Center(child: CircularProgressIndicator(
+            backgroundColor: DColors.primary3,
+            color: DColors.secondary2,
+          ));
+        }
+
+        return Container(
+          child: Column(
+            children: [
+              MeetDetail(),
+            ],
+          ),
+        );
+      }
     );
   }
 
