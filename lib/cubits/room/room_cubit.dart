@@ -15,6 +15,8 @@ class RoomCubit extends Cubit<RoomState> {
   void changeLink(link) => state.form.setValue("link", link);
 
   void loadRoom(String link) async {
-    roomApiService.get(link);
+    final failureOrRoom = await roomApiService.get(link);
+
+    print(failureOrRoom);
   }
 }

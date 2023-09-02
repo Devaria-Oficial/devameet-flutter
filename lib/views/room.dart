@@ -1,4 +1,5 @@
 
+import 'package:devameet_flutter/components/room/meet_detail.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
 import 'package:devameet_flutter/components/shared/menu.dart';
 import 'package:devameet_flutter/cubits/profile/profile_cubit.dart';
@@ -43,7 +44,13 @@ class RoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Column(
+        children: [
+          MeetDetail(),
+        ],
+      ),
+    );
   }
 
 }
