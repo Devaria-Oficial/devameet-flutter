@@ -15,7 +15,7 @@ class RoomCubit extends Cubit<RoomState> {
 
   void changeLink(link) => state.form.setValue("link", link);
 
-  void loadRoom(String link) async {
+  void loadRoom(String link, double width) async {
     emit(state.copyWith(status: RoomStatus.loading));
 
     final failureOrRoom = await roomApiService.get(link);
@@ -27,7 +27,10 @@ class RoomCubit extends Cubit<RoomState> {
           final devameetAssets = await roomRenderService.getDevameetAssets();
           final classifiedsRoomObjects = roomRenderService.classifierRoomObjects(room.objects);
 
-          print(classifiedsRoomObjects);
+          final roomRenderItems = roomRenderService.generateRoomItems(devameetAssets, classifiedsRoomObjects, width);
+
+          print(roomRenderItems);
+          // print(classifiedsRoomObjects);
           // room.objects.forEach((element) {
           //   print(element);
           // });

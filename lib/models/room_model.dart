@@ -68,3 +68,20 @@ class DevameetAssetModel extends Equatable {
   @override
   List<Object?> get props => [name, source, scale];
 }
+
+
+class RoomRenderItemModel extends Equatable {
+  final double top;
+  final double left;
+  final DevameetAssetModel asset;
+
+  const RoomRenderItemModel({
+    required this.top,
+    required this.left,
+    required this.asset
+  });
+
+  @override
+  List<Object?> get props => [top, left, asset];
+}
+

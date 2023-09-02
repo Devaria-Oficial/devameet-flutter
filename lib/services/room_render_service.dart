@@ -5,7 +5,11 @@ import 'package:flutter/services.dart';
 
 abstract class RoomRenderService {
   Future<Map<String, DevameetAssetModel>> getDevameetAssets();
-  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(List<RoomObjectModel> objects);
+  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(
+      List<RoomObjectModel> objects);
+  List<RoomRenderItemModel> generateRoomItems(Map<String, DevameetAssetModel> assets,
+      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects, double width);
+  getDevameetAssetByRoomObject(Map<String, DevameetAssetModel> assets, RoomObjectModel object);
 }
 
 class ScaleHelper {
@@ -48,7 +52,8 @@ class RoomRenderServiceImpl implements RoomRenderService {
   }
 
   @override
-  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(List<RoomObjectModel> objects) {
+  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(
+      List<RoomObjectModel> objects) {
     Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects = {};
 
     for (var object in objects) {
@@ -63,5 +68,44 @@ class RoomRenderServiceImpl implements RoomRenderService {
     }
 
     return classifiedsRoomObjects;
+  }
+
+  @override
+  List<RoomRenderItemModel> generateRoomItems(Map<String, DevameetAssetModel> assets,
+      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects, double width) {
+    List<RoomRenderItemModel> renderPool = [];
+
+    final blockSize = width / 8;
+
+    for (int zIndex = 0; zIndex <= classifiedsRoomObjects.length; zIndex++) {
+      for (int y = 0; y <= 7; y++) {
+        for (int x = 0; x <= 7; x++) {
+          final coordinate = "$x-$y";
+
+          final object = classifiedsRoomObjects[zIndex.toString()]?[coordinate];
+
+          if(object == null) continue;
+
+          final asset = getDevameetAssetByRoomObject(assets, object);
+
+          if(asset == null) continue;
+
+          final renderItem = RoomRenderItemModel(top: y * blockSize, left: x * blockSize, asset: asset);
+
+          renderPool.add(renderItem);
+        }
+      }
+    }
+
+    return renderPool;
+  }
+
+  @override
+  getDevameetAssetByRoomObject(Map<String, DevameetAssetModel> assets, RoomObjectModel object) {
+      String orientation = object.orientation.isNotEmpty ? "_${object.orientation}" : "_front";
+      final name = "${object.name}$orientation";
+      final objectAsset = assets[name] ?? assets[object.name];
+
+      return objectAsset;
   }
 }
