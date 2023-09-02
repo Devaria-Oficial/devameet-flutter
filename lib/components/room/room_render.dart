@@ -12,7 +12,7 @@ class RoomRender extends StatelessWidget {
         Positioned(
           left: 100,
           top: 50,
-          child: Image.asset("assets/devameet/Chair/chair_01_blue_front.png")
+          child: Image.asset("assets/devameet/Chair/chair_02_right.png")
         ),
         Positioned(
           left: 0,
