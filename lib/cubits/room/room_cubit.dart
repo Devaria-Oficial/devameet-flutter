@@ -29,11 +29,7 @@ class RoomCubit extends Cubit<RoomState> {
 
           final roomRenderItems = roomRenderService.generateRoomItems(devameetAssets, classifiedsRoomObjects, width);
 
-          print(roomRenderItems);
-          // print(classifiedsRoomObjects);
-          // room.objects.forEach((element) {
-          //   print(element);
-          // });
+          emit(state.copyWith(status: RoomStatus.roomBuilt, roomRenderItems: roomRenderItems));
 
         });
   }
