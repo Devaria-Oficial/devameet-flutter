@@ -25,7 +25,9 @@ class RoomCubit extends Cubit<RoomState> {
           emit(state.copyWith(room: room, status: RoomStatus.success));
 
           final devameetAssets = await roomRenderService.getDevameetAssets();
+          final classifiedsRoomObjects = roomRenderService.classifierRoomObjects(room.objects);
 
+          print(classifiedsRoomObjects);
           // room.objects.forEach((element) {
           //   print(element);
           // });

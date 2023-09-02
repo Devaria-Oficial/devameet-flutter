@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:devameet_flutter/models/room_model.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/services.dart';
 
 abstract class RoomRenderService {
   Future<Map<String, DevameetAssetModel>> getDevameetAssets();
+  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(List<RoomObjectModel> objects);
 }
 
 class ScaleHelper {
@@ -25,12 +24,13 @@ class ScaleHelper {
 }
 
 class RoomRenderServiceImpl implements RoomRenderService {
-
   Future<Map<String, DevameetAssetModel>> getDevameetAssets() async {
     final manifestContent = await rootBundle.loadString('AssetManifest.json');
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
 
-    final imagePaths = manifestMap.keys.where((String key) => key.contains("devameet/")).toList();
+    final imagePaths = manifestMap.keys
+        .where((String key) => key.contains("devameet/"))
+        .toList();
 
     Map<String, DevameetAssetModel> devameetAssets = {};
 
@@ -38,17 +38,30 @@ class RoomRenderServiceImpl implements RoomRenderService {
       final assetName = imagePath.split("/")[3].split(".")[0];
       final scale = ScaleHelper.getScaleAsset(assetName);
 
-      final devameetAsset = DevameetAssetModel(
-        name: assetName,
-        source: imagePath,
-        scale: scale
-      );
+      final devameetAsset =
+          DevameetAssetModel(name: assetName, source: imagePath, scale: scale);
 
       devameetAssets[assetName] = devameetAsset;
-
     }
 
     return devameetAssets;
   }
 
+  @override
+  Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(List<RoomObjectModel> objects) {
+    Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects = {};
+
+    for (var object in objects) {
+      final zIndex = object.zIndex.toString();
+      final coordinate = "${object.x}-${object.y}";
+
+      if (!classifiedsRoomObjects.containsKey(zIndex)) {
+        classifiedsRoomObjects[zIndex] = {};
+      }
+
+      classifiedsRoomObjects[zIndex]![coordinate] = object;
+    }
+
+    return classifiedsRoomObjects;
+  }
 }
