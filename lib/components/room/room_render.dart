@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/room/room_lobby.dart';
 import 'package:devameet_flutter/cubits/room/room_cubit.dart';
 import 'package:devameet_flutter/models/room_model.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,14 @@ class RoomRender extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RoomCubit, RoomState>(builder: (context, state) {
       return Stack(
-          children: state.roomRenderItems
+          children: [
+            ...state.roomRenderItems
               .map<Widget>((item) => RoomItem(item: item))
-              .toList());
+              .toList(),
+            RoomLobby()
+        ]
+      );
+
     });
   }
 }
