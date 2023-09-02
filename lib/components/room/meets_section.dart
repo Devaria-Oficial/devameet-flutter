@@ -117,7 +117,7 @@ class MeetItem extends StatelessWidget {
               InkWell(
                 splashColor: DColors.grey1,
                 onTap: () {
-                  context.goNamed("entrance_room", queryParameters: {"link": meet.link});
+                  context.go("/room/${meet.link}");
                 },
                 child: SvgPicture.asset(
                   "assets/icons/door.svg",

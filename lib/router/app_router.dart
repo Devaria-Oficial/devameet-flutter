@@ -6,6 +6,7 @@ import 'package:devameet_flutter/views/login.dart';
 import 'package:devameet_flutter/views/my_meets.dart';
 import 'package:devameet_flutter/views/profile.dart';
 import 'package:devameet_flutter/views/register.dart';
+import 'package:devameet_flutter/views/room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,7 @@ class AppRouter {
 
           return EntranceRoomPage();
         }),
+        GoRoute(path: "/room/:link", builder: (context, state) => RoomPage(link: state.pathParameters["link"]!,))
 
       ],
       redirect: (context, state) {
