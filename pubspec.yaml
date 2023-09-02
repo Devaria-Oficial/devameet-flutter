@@ -79,6 +79,14 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/devameet/Avatar/
+    - assets/devameet/Chair/
+    - assets/devameet/Couch/
+    - assets/devameet/Decor/
+    - assets/devameet/Floor/
+    - assets/devameet/Nature/
+    - assets/devameet/Rug/
+    - assets/devameet/Table/
+    - assets/devameet/Wall/
 
   fonts:
     - family: Biennale

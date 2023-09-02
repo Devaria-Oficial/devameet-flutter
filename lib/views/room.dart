@@ -1,6 +1,7 @@
 
 import 'package:devameet_flutter/components/room/meet_detail.dart';
 import 'package:devameet_flutter/components/room/not_found_room.dart';
+import 'package:devameet_flutter/components/room/room_render.dart';
 import 'package:devameet_flutter/components/shared/header.dart';
 import 'package:devameet_flutter/components/shared/menu.dart';
 import 'package:devameet_flutter/constants/color.dart';
@@ -77,6 +78,8 @@ class RoomContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
 
     return BlocBuilder<RoomCubit, RoomState>(builder: (context, state) {
 
@@ -87,6 +90,11 @@ class RoomContent extends StatelessWidget {
       return Column(
         children: [
           MeetDetail(),
+          SizedBox(
+            width: width,
+            height: width,
+            child: RoomRender(),
+          )
         ],
       );
 
