@@ -10,6 +10,7 @@ import 'package:devameet_flutter/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class EntranceRoomPage extends StatelessWidget {
   const EntranceRoomPage({super.key});
@@ -76,11 +77,17 @@ class RoomForm extends StatelessWidget {
               InputField(
                   hint: "Informe o link da reunião para entrar",
                   iconPath: "assets/icons/link.svg",
-                  onChanged: (link) {}),
+                  onChanged: context.read<RoomCubit>().changeLink,
+                  stream: state.form.getStream("link"),
+              ),
               SizedBox(height: height * 0.0625,),
               Button(
                 text: "Entrar",
-                onPressed: () {},
+                onPressed: () {
+                  bool isValid = state.form.validate();
+                  if(!isValid) return;
+                  context.go("/room/${state.form.getValue("link")}");
+                },
               )
             ],
           ),
