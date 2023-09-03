@@ -18,7 +18,7 @@ class MeetDetail extends StatelessWidget {
     return BlocBuilder<RoomCubit, RoomState>(
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.all(height * 0.025),
+          margin: EdgeInsets.symmetric(horizontal: height * 0.025, vertical: height * 0.01),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

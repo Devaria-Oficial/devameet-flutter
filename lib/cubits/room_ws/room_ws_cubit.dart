@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'room_ws_state.dart';
 
+enum Direction { up, down, left, right}
+
 class RoomWsCubit extends Cubit<RoomWsState> {
   final RoomWsService roomWsService;
   final RoomRenderService roomRenderService;
