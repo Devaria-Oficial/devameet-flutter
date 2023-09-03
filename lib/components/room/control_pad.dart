@@ -64,9 +64,28 @@ class ControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: () {}, child:
+    return ElevatedButton(onPressed: () {}, 
+        style: ButtonStyle(
+          elevation: togglePropertiesOnPress(2, 0),
+          backgroundColor: togglePropertiesOnPress(DColors.primary3, DColors.primary3.withOpacity(0.25))
+        ),
+        child:
       SvgPicture.asset(icons[direction]!, color: DColors.white,)
     );
   }
 
+}
+
+MaterialStateProperty<T> togglePropertiesOnPress<T>(T original, T onPress) {
+  
+  togglePropertie(Set<MaterialState> states) {
+    if (states.contains(MaterialState.pressed)) {
+      return onPress;
+    }
+    return original;
+  }
+  
+  
+  return MaterialStateProperty.resolveWith(togglePropertie);
+  
 }
