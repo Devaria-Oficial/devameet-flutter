@@ -55,6 +55,7 @@ class RoomView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return BlocConsumer<RoomCubit, RoomState>(
       listener: (context, state) {
@@ -63,7 +64,7 @@ class RoomView extends StatelessWidget {
 
           final user = context.read<ProfileCubit>().state.user;
 
-          context.read<RoomWsCubit>().start(state.room!, user!);
+          context.read<RoomWsCubit>().start(state.room!, user!, width);
         }
 
       },

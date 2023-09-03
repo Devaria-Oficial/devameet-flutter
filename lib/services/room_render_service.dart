@@ -1,15 +1,24 @@
 import 'dart:convert';
 
+import 'package:devameet_flutter/models/auth_model.dart';
 import 'package:devameet_flutter/models/room_model.dart';
 import 'package:flutter/services.dart';
 
 abstract class RoomRenderService {
-  Future<Map<String, DevameetAssetModel>> getDevameetAssets();
+  Future<Map<String, DevameetAssetModel>> getDevameetAssets({String? assetType});
   Map<String, Map<String, RoomObjectModel>> classifierRoomObjects(
       List<RoomObjectModel> objects);
-  List<RoomRenderItemModel> generateRoomItems(Map<String, DevameetAssetModel> assets,
-      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects, double width);
-  getDevameetAssetByRoomObject(Map<String, DevameetAssetModel> assets, RoomObjectModel object);
+  List<RoomRenderItemModel> generateRoomItems(
+      Map<String, DevameetAssetModel> assets,
+      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects,
+      double width);
+  getDevameetAsset(Map<String, DevameetAssetModel> assets, String assetName,
+      String orientation);
+
+  List<PlayerRenderItem> generatePlayerRoomItems(
+      Map<String, DevameetAssetModel> avatarAssets,
+      List<PlayerModel> players,
+      double width);
 }
 
 class ScaleHelper {
@@ -28,12 +37,12 @@ class ScaleHelper {
 }
 
 class RoomRenderServiceImpl implements RoomRenderService {
-  Future<Map<String, DevameetAssetModel>> getDevameetAssets() async {
+  Future<Map<String, DevameetAssetModel>> getDevameetAssets({String? assetType}) async {
     final manifestContent = await rootBundle.loadString('AssetManifest.json');
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
 
     final imagePaths = manifestMap.keys
-        .where((String key) => key.contains("devameet/"))
+        .where((String key) => key.contains(assetType == null ? "devameet/" : "devameet/$assetType"))
         .toList();
 
     Map<String, DevameetAssetModel> devameetAssets = {};
@@ -71,8 +80,10 @@ class RoomRenderServiceImpl implements RoomRenderService {
   }
 
   @override
-  List<RoomRenderItemModel> generateRoomItems(Map<String, DevameetAssetModel> assets,
-      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects, double width) {
+  List<RoomRenderItemModel> generateRoomItems(
+      Map<String, DevameetAssetModel> assets,
+      Map<String, Map<String, RoomObjectModel>> classifiedsRoomObjects,
+      double width) {
     List<RoomRenderItemModel> renderPool = [];
 
     final blockSize = width / 8;
@@ -84,13 +95,15 @@ class RoomRenderServiceImpl implements RoomRenderService {
 
           final object = classifiedsRoomObjects[zIndex.toString()]?[coordinate];
 
-          if(object == null) continue;
+          if (object == null) continue;
 
-          final asset = getDevameetAssetByRoomObject(assets, object);
+          final asset =
+              getDevameetAsset(assets, object.name, object.orientation);
 
-          if(asset == null) continue;
+          if (asset == null) continue;
 
-          final renderItem = RoomRenderItemModel(top: y * blockSize, left: x * blockSize, asset: asset);
+          final renderItem = RoomRenderItemModel(
+              top: y * blockSize, left: x * blockSize, asset: asset);
 
           renderPool.add(renderItem);
         }
@@ -101,11 +114,39 @@ class RoomRenderServiceImpl implements RoomRenderService {
   }
 
   @override
-  getDevameetAssetByRoomObject(Map<String, DevameetAssetModel> assets, RoomObjectModel object) {
-      String orientation = object.orientation.isNotEmpty ? "_${object.orientation}" : "_front";
-      final name = "${object.name}$orientation";
-      final objectAsset = assets[name] ?? assets[object.name];
+  getDevameetAsset(Map<String, DevameetAssetModel> assets, String assetName,
+      String orientation) {
+    String _orientation = orientation.isNotEmpty ? "_$orientation" : "_front";
+    final name = "$assetName$_orientation";
+    final objectAsset = assets[name] ?? assets[assetName];
 
-      return objectAsset;
+    return objectAsset;
+  }
+
+  @override
+  List<PlayerRenderItem> generatePlayerRoomItems(
+      Map<String, DevameetAssetModel> avatarAssets,
+      List<PlayerModel> players,
+      double width) {
+    List<PlayerRenderItem> playersRenderPool = [];
+
+    final blockSize = (width / 8)  * 0.9;
+
+    for (var player in players) {
+      final asset =
+          getDevameetAsset(avatarAssets, player.avatar, player.orientation);
+
+      if (asset == null) continue;
+
+      final renderItem = RoomRenderItemModel(
+          top: player.y * blockSize, left: player.x * blockSize, asset: asset);
+
+      final playerRenderItem =
+          PlayerRenderItem(player: player, roomRenderItem: renderItem);
+
+      playersRenderPool.add(playerRenderItem);
+    }
+
+    return playersRenderPool;
   }
 }

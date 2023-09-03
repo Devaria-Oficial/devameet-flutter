@@ -1,6 +1,6 @@
 
 
-import 'package:devameet_flutter/models/auth_model.dart';
+import 'package:devameet_flutter/models/room_model.dart';
 import 'package:devameet_flutter/models/user_model.dart';
 import 'package:devameet_flutter/services/socket_service.dart';
 
@@ -40,9 +40,9 @@ class RoomWsServiceImpl implements RoomWsService {
   @override
   void onUpdateUserList(String link, callback) {
     socketService.on('$link${DEvents.update_user_list}', (data) {
+      print(data);
       final players = List<PlayerModel>.from(data['users'].map((user) => PlayerModel.fromJson(user)));
-      print(players);
-      callback();
+      callback(players);
     });
   }
 

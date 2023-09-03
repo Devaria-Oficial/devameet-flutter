@@ -85,3 +85,69 @@ class RoomRenderItemModel extends Equatable {
   List<Object?> get props => [top, left, asset];
 }
 
+class PlayerModel extends Equatable {
+  final String userId;
+  final String clientId;
+  final String name;
+  final String avatar;
+  final int x;
+  final int y;
+  final String orientation;
+  final bool muted;
+
+  const PlayerModel(
+      {required this.userId,
+        required this.clientId,
+        required this.name,
+        required this.avatar,
+        required this.x,
+        required this.y,
+        required this.orientation,
+        required this.muted});
+
+  @override
+  List<Object?> get props =>
+      [userId, clientId, name, avatar, x, y, orientation, muted];
+
+  factory PlayerModel.fromJson(Map<String, dynamic> json) {
+    return PlayerModel(
+        userId: json['userId'] ?? json['user'],
+        clientId: json['clientId'],
+        name: json['name'],
+        avatar: json['avatar'],
+        x: json['x'],
+        y: json['y'],
+        orientation: json['orientation'],
+        muted: json['muted']);
+  }
+
+  PlayerModel copyWith(
+      {String? userId,
+        String? clientId,
+        String? name,
+        String? avatar,
+        int? x,
+        int? y,
+        String? orientation,
+        bool? muted}) {
+    return PlayerModel(
+        userId: userId ?? this.userId,
+        clientId: clientId ?? this.clientId,
+        name: name ?? this.name,
+        avatar: avatar ?? this.avatar,
+        x: x ?? this.x,
+        y: y ?? this.y,
+        orientation: orientation ?? this.orientation,
+        muted: muted ?? this.muted);
+  }
+}
+
+class PlayerRenderItem extends Equatable {
+  final PlayerModel player;
+  final RoomRenderItemModel roomRenderItem;
+
+  const PlayerRenderItem({required this.player, required this.roomRenderItem});
+
+  @override
+  List<Object?> get props => [player, roomRenderItem];
+}

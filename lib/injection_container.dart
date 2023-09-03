@@ -38,7 +38,7 @@ void init() {
   sl.registerFactory(() => ProfileCubit(userApiService: sl()));
   sl.registerFactory(() => MeetCubit(meetApiService: sl()));
   sl.registerFactory(() => RoomCubit(roomApiService: sl(), roomRenderService: sl()));
-  sl.registerFactory(() => RoomWsCubit(roomWsService: sl()));
+  sl.registerFactory(() => RoomWsCubit(roomWsService: sl(), roomRenderService: sl()));
 
   // CORE
   sl.registerLazySingleton<HttpService>(() => HttpServiceImpl(dotenv.get("API_URL")));
