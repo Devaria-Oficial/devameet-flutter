@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/room/audio_button.dart';
 import 'package:devameet_flutter/components/room/players_render.dart';
 import 'package:devameet_flutter/components/room/room_lobby.dart';
 import 'package:devameet_flutter/cubits/room/room_cubit.dart';
@@ -18,7 +19,10 @@ class RoomRender extends StatelessWidget {
         const PlayersRender(),
         Visibility(
             visible: state.status == RoomStatus.roomBuilt,
-            child: const RoomLobby())
+            child: const RoomLobby()),
+        Visibility(
+            visible: state.status == RoomStatus.enterMeet,
+            child: const AudioButton()),
       ]);
     });
   }

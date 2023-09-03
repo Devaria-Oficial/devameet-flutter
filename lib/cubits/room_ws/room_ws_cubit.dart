@@ -45,6 +45,7 @@ class RoomWsCubit extends Cubit<RoomWsState> {
   }
 
   void _onUpdateUserList(List<PlayerModel> players) {
+    print(players);
     _players = players;
     _generatePlayerRenderItems();
   }
@@ -87,6 +88,12 @@ class RoomWsCubit extends Cubit<RoomWsState> {
     }
 
     roomWsService.move(_room!.link, localPlayer.userId, x, y, newOrientation);
+  }
+
+  void toggleAudio() {
+    bool _muted = !state.muted;
+    emit(state.copyWith(muted: _muted));
+    roomWsService.toggleMute(_room!.link, _user!, _muted);
   }
 
 }

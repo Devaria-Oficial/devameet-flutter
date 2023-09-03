@@ -11,12 +11,14 @@ abstract class RoomWsService {
   void joinRoom(String link, UserModel user);
   void onUpdateUserList(String link, dynamic callback);
   void move(String link, String userId, int x, int y, String orientation);
+  void toggleMute(String link, UserModel user, bool muted);
 }
 
 abstract class DEvents {
   static const join = "join";
   static const update_user_list = '-update-user-list';
   static const move = 'move';
+  static final toggl_mute = 'toggl-mute-user';
 }
 
 class RoomWsServiceImpl implements RoomWsService {
@@ -59,6 +61,17 @@ class RoomWsServiceImpl implements RoomWsService {
     };
 
     socketService.emit(DEvents.move, event);
+  }
+
+  @override
+  void toggleMute(String link, UserModel user, bool muted) {
+    final event = {
+      "userId": user.id,
+      "link": link,
+      "muted": muted
+    };
+
+    socketService.emit(DEvents.toggl_mute, event);
   }
 
 }

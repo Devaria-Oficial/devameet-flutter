@@ -1,4 +1,3 @@
-
 import 'package:devameet_flutter/components/room/control_pad.dart';
 import 'package:devameet_flutter/components/room/meet_detail.dart';
 import 'package:devameet_flutter/components/room/not_found_room.dart';
@@ -41,13 +40,12 @@ class RoomPage extends StatelessWidget {
             create: (_) => sl<RoomWsCubit>(),
             lazy: false,
           ),
-          ],
+        ],
         child: const RoomView(),
       ),
       bottomNavigationBar: const Menu(currentSelected: 1),
     );
   }
-  
 }
 
 class RoomView extends StatelessWidget {
@@ -58,37 +56,31 @@ class RoomView extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return BlocConsumer<RoomCubit, RoomState>(
-      listener: (context, state) {
+    return BlocConsumer<RoomCubit, RoomState>(listener: (context, state) {
+      if (state.status == RoomStatus.enterMeet) {
+        final user = context.read<ProfileCubit>().state.user;
 
-        if (state.status == RoomStatus.enterMeet) {
+        context.read<RoomWsCubit>().start(state.room!, user!, width);
+      }
+    }, builder: (context, state) {
+      if (state.status == RoomStatus.loading) {
+        return Center(
+            child: CircularProgressIndicator(
+          backgroundColor: DColors.primary3,
+          color: DColors.secondary2,
+        ));
+      }
 
-          final user = context.read<ProfileCubit>().state.user;
-
-          context.read<RoomWsCubit>().start(state.room!, user!, width);
-        }
-
-      },
-      builder: (context, state) {
-        if (state.status == RoomStatus.loading) {
-          return Center(child: CircularProgressIndicator(
-            backgroundColor: DColors.primary3,
-            color: DColors.secondary2,
-          ));
-        }
-
-        return Container(
+      return Container(
           height: height,
           decoration: BoxDecoration(
-            color: DColors.primary3.withOpacity(0.05),
-            image: const DecorationImage(image: fsp.Svg("assets/images/texture.svg"), fit: BoxFit.fitWidth)
-          ),
-          child: const RoomContent()
-        );
-      }
-    );
+              color: DColors.primary3.withOpacity(0.05),
+              image: const DecorationImage(
+                  image: fsp.Svg("assets/images/texture.svg"),
+                  fit: BoxFit.fitWidth)),
+          child: const RoomContent());
+    });
   }
-
 }
 
 class RoomContent extends StatelessWidget {
@@ -100,7 +92,6 @@ class RoomContent extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return BlocBuilder<RoomCubit, RoomState>(builder: (context, state) {
-
       if (state.status == RoomStatus.notFound) {
         return const NotFoundRoom();
       }
@@ -113,13 +104,14 @@ class RoomContent extends StatelessWidget {
             height: width,
             child: const RoomRender(),
           ),
-          Container(
-              margin: EdgeInsets.all(height * 0.005),
-              child: const ControlPad())
+          const Spacer(),
+          Visibility(
+              visible: state.status == RoomStatus.enterMeet,
+              child: Container(
+                  margin: EdgeInsets.all(height * 0.005),
+                  child: const ControlPad())),
         ],
       );
-
     });
   }
-
 }
