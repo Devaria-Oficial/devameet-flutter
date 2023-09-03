@@ -44,9 +44,8 @@ class RoomWsCubit extends Cubit<RoomWsState> {
   }
 
   void _generatePlayerRenderItems() {
-    final playerRenderItens = roomRenderService.generatePlayerRoomItems(_avatarAssets!, _players, _width!);
-
-    print(playerRenderItens);
+    final playerRenderItems = roomRenderService.generatePlayerRoomItems(_avatarAssets!, _players, _width!);
+    emit(state.copyWith(playerRenderItems: playerRenderItems));
   }
 
 

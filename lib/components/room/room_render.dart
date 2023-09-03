@@ -1,3 +1,4 @@
+import 'package:devameet_flutter/components/room/players_render.dart';
 import 'package:devameet_flutter/components/room/room_lobby.dart';
 import 'package:devameet_flutter/cubits/room/room_cubit.dart';
 import 'package:devameet_flutter/models/room_model.dart';
@@ -14,6 +15,7 @@ class RoomRender extends StatelessWidget {
         ...state.roomRenderItems
             .map<Widget>((item) => RoomItem(item: item))
             .toList(),
+        const PlayersRender(),
         Visibility(
             visible: state.status == RoomStatus.roomBuilt,
             child: const RoomLobby())
