@@ -1,6 +1,7 @@
 import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/room_ws/room_ws_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ControlPad extends StatelessWidget {
@@ -64,13 +65,17 @@ class ControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: () {}, 
-        style: ButtonStyle(
-          elevation: togglePropertiesOnPress(2, 0),
-          backgroundColor: togglePropertiesOnPress(DColors.primary3, DColors.primary3.withOpacity(0.25))
-        ),
-        child:
-      SvgPicture.asset(icons[direction]!, color: DColors.white,)
+    return GestureDetector(
+      onTapDown: (_) => context.read<RoomWsCubit>().startMove(direction),
+      onTapCancel:() => context.read<RoomWsCubit>().stopMove(),
+      child: ElevatedButton(onPressed: () {},
+          style: ButtonStyle(
+            elevation: togglePropertiesOnPress(2, 0),
+            backgroundColor: togglePropertiesOnPress(DColors.primary3, DColors.primary3.withOpacity(0.25))
+          ),
+          child:
+        SvgPicture.asset(icons[direction]!, color: DColors.white,)
+      ),
     );
   }
 

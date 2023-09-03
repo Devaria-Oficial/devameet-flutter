@@ -29,11 +29,13 @@ class RoomWsCubit extends Cubit<RoomWsState> {
   Map<String, DevameetAssetModel>? _avatarAssets;
   List<PlayerModel> _players = [];
   double? _width;
+  UserModel? _user;
 
   void start(RoomModel room, UserModel user, double width) async {
 
     this._avatarAssets = await roomRenderService.getDevameetAssets(assetType: "Avatar");
     _width = width;
+    _user = user;
 
     roomWsService.connect();
     roomWsService.joinRoom(room.link, user);
@@ -50,6 +52,43 @@ class RoomWsCubit extends Cubit<RoomWsState> {
     emit(state.copyWith(playerRenderItems: playerRenderItems));
   }
 
+  void startMove(Direction direction) {
+    final localPlayer = _players.firstWhere((player) => player.userId == _user!.id);
+    _move(direction, localPlayer);
+  }
 
+  void stopMove() {}
+
+
+  void _move(Direction direction, PlayerModel localPlayer) {
+    String newOrientation;
+    int x = localPlayer.x;
+    int y = localPlayer.y;
+
+    switch (direction) {
+      case Direction.up:
+        newOrientation = "back";
+        if (y > 0) y--;
+        break;
+      case Direction.down:
+        newOrientation = "front";
+        if (y < 7) y++;
+        break;
+      case Direction.left:
+        newOrientation = "left";
+        if (x > 0) x--;
+        break;
+      case Direction.right:
+        newOrientation = "right";
+        if (x < 7) x++;
+        break;
+    }
+
+
+    print(newOrientation);
+    print(x);
+    print(y);
+
+  }
 
 }
