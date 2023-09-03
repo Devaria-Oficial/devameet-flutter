@@ -8,6 +8,7 @@ import 'package:devameet_flutter/cubits/room_ws/room_ws_cubit.dart';
 import 'package:devameet_flutter/services/auth_api_service.dart';
 import 'package:devameet_flutter/services/http_service.dart';
 import 'package:devameet_flutter/services/meet_api_service.dart';
+import 'package:devameet_flutter/services/peer_connection_service.dart';
 import 'package:devameet_flutter/services/room_api_service.dart';
 import 'package:devameet_flutter/services/room_render_service.dart';
 import 'package:devameet_flutter/services/room_ws_service.dart';
@@ -29,7 +30,7 @@ void init() {
   sl.registerLazySingleton<MeetApiService>(() => MeetApiServiceImpl(httpService: sl()));
   sl.registerLazySingleton<RoomApiService>(() => RoomApiServiceImpl(httpService: sl()));
   sl.registerLazySingleton<RoomRenderService>(() => RoomRenderServiceImpl());
-  sl.registerLazySingleton<RoomWsService>(() => RoomWsServiceImpl(socketService: sl()));
+  sl.registerLazySingleton<RoomWsService>(() => RoomWsServiceImpl(socketService: sl(), peerConnectionService: sl()));
 
   // CUBITS
   sl.registerFactory(() => LoginCubit(authApiService: sl()));
@@ -43,7 +44,7 @@ void init() {
   // CORE
   sl.registerLazySingleton<HttpService>(() => HttpServiceImpl(dotenv.get("API_URL")));
   sl.registerLazySingleton<SocketService>(() => SocketServiceImpl(dotenv.get("WS_URL")));
-
+  sl.registerFactory<PeerConnectionServiceImpl>(() => PeerConnectionServiceImpl());
 
   // External
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());

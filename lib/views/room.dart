@@ -113,6 +113,7 @@ class RoomContent extends StatelessWidget {
             height: width,
             child: const RoomRender(),
           ),
+          Spacer(),
           Container(
               margin: EdgeInsets.all(height * 0.005),
               child: const ControlPad())
