@@ -1,6 +1,7 @@
 import 'package:devameet_flutter/models/auth_model.dart';
 import 'package:devameet_flutter/models/room_model.dart';
 import 'package:devameet_flutter/models/user_model.dart';
+import 'package:devameet_flutter/services/peer_connection_service.dart';
 import 'package:devameet_flutter/services/room_render_service.dart';
 import 'package:devameet_flutter/services/room_ws_service.dart';
 import 'package:equatable/equatable.dart';
@@ -40,8 +41,12 @@ class RoomWsCubit extends Cubit<RoomWsState> {
     _room = room;
 
     roomWsService.connect();
-    roomWsService.joinRoom(room.link, user);
-    roomWsService.onUpdateUserList(room.link, _onUpdateUserList);
+    roomWsService.joinRoom(room.link, user, _onTrack);
+    roomWsService.onUpdateUserList(room.link, user, _onUpdateUserList, _onTrack);
+  }
+
+  void _onTrack(String clientId, StreamProxy streamProxy) {
+
   }
 
   void _onUpdateUserList(List<PlayerModel> players) {
