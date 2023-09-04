@@ -24,6 +24,7 @@ class RoomWsCubit extends Cubit<RoomWsState> {
   @override
   Future<void> close() async {
     roomWsService.disconnect();
+    await roomWsService.disposeRTC();
     return super.close();
   }
 
@@ -107,6 +108,12 @@ class RoomWsCubit extends Cubit<RoomWsState> {
 
   void toggleAudio() {
     bool _muted = !state.muted;
+
+
+    final localPlayerAudio = state.playerAudios[_user!.id];
+    print(localPlayerAudio);
+    localPlayerAudio?.muted = _muted;
+
     emit(state.copyWith(muted: _muted));
     roomWsService.toggleMute(_room!.link, _user!, _muted);
   }

@@ -18,6 +18,8 @@ abstract class RoomWsService {
   void onCallMade(String link, dynamic callbackOnTrack);
   void onAnswerMade(String link);
   void onRemoveUser(String link, dynamic callbackRemoveUser);
+
+  Future<void> disposeRTC();
 }
 
 abstract class DEvents {
@@ -251,5 +253,32 @@ class RoomWsServiceImpl implements RoomWsService {
 
       callbackRemoveUser(clientId);
     });
+  }
+
+  @override
+  Future<void> disposeRTC() async {
+    try {
+      peerConnectionService.local?.renderer.srcObject = null;
+      await peerConnectionService.local?.renderer.dispose();
+
+      for (var remote in peerConnectionService.remotes) {
+        remote?.renderer.srcObject = null;
+        await remote?.renderer.dispose();
+      }
+
+      for (var sender in peerConnectionService.senders) {
+        await sender.dispose();
+      }
+
+      for (var peerConnection in peerConnectionService.peerConnections.entries) {
+        await peerConnection.value.dispose();
+      }
+
+      peerConnectionService.local = null;
+      peerConnectionService.remotes.clear();
+      peerConnectionService.peerConnections.clear();
+      peerConnectionService.senders.clear();
+
+    } catch (e) {}
   }
 }
