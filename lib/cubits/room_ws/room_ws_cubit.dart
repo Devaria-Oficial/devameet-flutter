@@ -6,7 +6,7 @@ import 'package:devameet_flutter/services/room_render_service.dart';
 import 'package:devameet_flutter/services/room_ws_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 part 'room_ws_state.dart';
 
@@ -43,10 +43,20 @@ class RoomWsCubit extends Cubit<RoomWsState> {
     roomWsService.connect();
     roomWsService.joinRoom(room.link, user, _onTrack);
     roomWsService.onUpdateUserList(room.link, user, _onUpdateUserList, _onTrack);
+    roomWsService.onCallMade(room.link, _onTrack);
+    roomWsService.onAddUser(room.link, _onTrack);
+    roomWsService.onAnswerMade(room.link);
+    roomWsService.onRemoveUser(room.link, _onRemoveUser);
   }
 
   void _onTrack(String clientId, StreamProxy streamProxy) {
+    final playerAudios = Map<String, RTCVideoRenderer>.from(state.playerAudios)..addAll({clientId: streamProxy.renderer});
+    emit(state.copyWith(playerAudios: playerAudios));
+  }
 
+  void _onRemoveUser(String clientId) {
+    _players = _players..removeWhere((player) => player.clientId == clientId);
+    _generatePlayerRenderItems();
   }
 
   void _onUpdateUserList(List<PlayerModel> players) {

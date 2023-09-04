@@ -2,6 +2,7 @@ import 'package:devameet_flutter/constants/color.dart';
 import 'package:devameet_flutter/cubits/room_ws/room_ws_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class PlayersRender extends StatelessWidget {
   const PlayersRender({super.key});
@@ -17,6 +18,7 @@ class PlayersRender extends StatelessWidget {
                 child: Player(
                   name: playerRender.player.name,
                   asset: playerRender.roomRenderItem.asset.source,
+                  audioRenderer: state.playerAudios[playerRender.player.clientId] ?? state.playerAudios[playerRender.player.userId],
                 )))
             .toList(),
       );
@@ -27,8 +29,9 @@ class PlayersRender extends StatelessWidget {
 class Player extends StatelessWidget {
   final String name;
   final String asset;
+  final RTCVideoRenderer? audioRenderer;
 
-  const Player({super.key, required this.name, required this.asset});
+  const Player({super.key, required this.name, required this.asset, required this.audioRenderer});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,8 @@ class Player extends StatelessWidget {
         Image.asset(
           asset,
           scale: 1.2,
-        )
+        ),
+        if (audioRenderer != null) Visibility(visible: false, child: SizedBox(height: 10, child: RTCVideoView(audioRenderer!),))
       ],
     );
   }
